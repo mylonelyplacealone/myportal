@@ -1,0 +1,18 @@
+<div class="toggle-icon" (click)="toggleSidebar()" [@toggleState]="state">
+  <span></span>
+  <span></span>
+  <span></span>
+</div>
+<br>
+<div class="sidebar" [@photoState]="state">
+  <ul>
+    <li *ngFor="let menu1 of menulevel;let i = index" class="parent-item"
+        [ngClass]="{'selected': selectedItemId === i}" > 
+      <a (click)="selectedItemId = i">{{menu1.name}}</a>
+      <ul *ngIf="menu1.children" class="child-item">
+        <li *ngFor="let menu2 of menu1.children">{{menu2.name}}</li>
+      </ul>
+    </li>
+  </ul>
+</div>
+
