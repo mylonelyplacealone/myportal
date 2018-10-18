@@ -14,8 +14,8 @@
             </a>
           </div>
           <div [id]="'collapse' + i" class="panel-collapse collapse" [ngClass]="{in:queryParam === chapter.heading}" role="tabpanel" [attr.aria-labelledby]="'heading' + i">
-            <div class="panel-body">
-                {{chapter.details}}
+            <div class="panel-body" [innerHTML]="chapter.details">
+                <!-- {{chapter.details}} -->
             </div>
           </div>
         </div>

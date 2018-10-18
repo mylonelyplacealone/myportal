@@ -39,8 +39,8 @@ export class AppDataService{
         new Chapter('Home', 'Heading 1', '1 Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably havent heard of them accusamus labore sustainable VHS.'),
         new Chapter('Home', 'Heading 2', '2 Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably havent heard of them accusamus labore sustainable VHS.'),
         new Chapter('Home', 'Heading 3', '3 Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably havent heard of them accusamus labore sustainable VHS.'),
-        new Chapter('Angular Basics', 'Interpolation', `
-          Whenever you need to communicate properties (variables, objects, arrays, etc..) from the component class to the template, you can use interpolation.
+        new Chapter('Angular Basics', 'Interpolation', `<div class="col-md-12 articlebox row">
+        Whenever you need to communicate properties (variables, objects, arrays, etc..) from the component class to the template, you can use interpolation.
 
           The format for defining interpolation in a template is: {{ propertyName }}
 
@@ -68,6 +68,7 @@ export class AppDataService{
           Of course, this itemCount property is not yet dynamic, but it will be shortly.
           `),
         new Chapter('Angular Basics', 'Property Binding', `
+
           Let's say for some reason, that we want to use the component class to control the value of our Add Item button text. We can do this through property binding.
 
           Open /home.component.ts and add the following property:
