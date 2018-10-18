@@ -11,10 +11,11 @@ import { HomeComponent } from './home/home.component';
 import { AppService } from './shared/app.service';
 import { HttpClientModule } from '@angular/common/http';
 import { AuthGuard } from './auth/common/auth-guard.service';
-import { ExtrarouteComponent } from './extraroute/extraroute.component';
 import { UsersComponent } from './users/users.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { CodeComponent } from './code/code.component';
+import { ExampleComponent } from './example/example.component';
 
 @NgModule({
   declarations: [
@@ -23,9 +24,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     SigninComponent,
     SignupComponent,
     HomeComponent,
-    ExtrarouteComponent,
     UsersComponent,
-    SidebarComponent
+    SidebarComponent,
+    CodeComponent,
+    ExampleComponent
   ],
   imports: [
     BrowserModule,

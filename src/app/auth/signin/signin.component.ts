@@ -45,7 +45,7 @@ export class SigninComponent implements OnInit {
         // console.log(localStorage.getItem('token'));
         // console.log('redirecting');
         // alert(this.queryParam);
-        this.router.navigate([this.queryParam === null || this.queryParam === ''? 'extraroute' : this.queryParam]);
+        this.router.navigate([this.queryParam === null || this.queryParam === ''? 'home' : this.queryParam]);
       }
     });
   }
