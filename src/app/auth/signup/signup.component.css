@@ -160,3 +160,8 @@
 .errMessage{
     color:red;
 }
+
+.brand-logo{
+    width: 50px;
+    height: 45px;
+}
