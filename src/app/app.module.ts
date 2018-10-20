@@ -9,13 +9,15 @@ import { SignupComponent } from './auth/signup/signup.component';
 import { AppRoutingModule } from './app-routing.module';
 import { HomeComponent } from './home/home.component';
 import { AppService } from './shared/app.service';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthGuard } from './auth/common/auth-guard.service';
 import { UsersComponent } from './users/users.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CodeComponent } from './code/code.component';
 import { ExampleComponent } from './example/example.component';
+import { LoaderComponent } from './auth/loader/loader.component';
+import { LoaderInterceptorService } from './auth/loader/loader.intercepter';
 
 @NgModule({
   declarations: [
@@ -27,7 +29,8 @@ import { ExampleComponent } from './example/example.component';
     UsersComponent,
     SidebarComponent,
     CodeComponent,
-    ExampleComponent
+    ExampleComponent,
+    LoaderComponent
   ],
   imports: [
     BrowserModule,
@@ -36,7 +39,13 @@ import { ExampleComponent } from './example/example.component';
     HttpClientModule,
     BrowserAnimationsModule
   ],
-  providers: [AppService, AuthGuard],
+  providers: [AppService, AuthGuard, 
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: LoaderInterceptorService,
+      multi: true
+    }
+],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
