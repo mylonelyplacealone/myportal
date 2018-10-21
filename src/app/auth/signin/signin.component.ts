@@ -31,6 +31,7 @@ export class SigninComponent implements OnInit {
 
   onSignIn(form: NgForm){
     localStorage.removeItem('token');
+    localStorage.removeItem('isadmin');
     const email = form.value.email;
     const password = form.value.password;
 

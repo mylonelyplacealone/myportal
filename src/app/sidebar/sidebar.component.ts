@@ -15,8 +15,9 @@ import { AppDataService } from '../shared/appdata.service';
         transform: 'translateX(-50%) rotateY(90deg)',
         'display': 'none'
       })),
-      transition('* => *', animate('1000ms ease')),
+      transition('* => *', animate('500ms ease')),
     ]),
+    
     trigger('toggleState', [
       state('show', style({
         transform: 'translateX(0%)',
@@ -24,7 +25,18 @@ import { AppDataService } from '../shared/appdata.service';
       state('hide',   style({
         transform: 'translateX(-200px)',
       })),
-      transition('* => *', animate('1000ms ease')),
+      transition('* => *', animate('500ms ease')),
+    ]),
+
+    trigger('smallPhotoState', [
+      state('hide', style({
+        'display': 'block'
+      })),
+      state('show',   style({
+        transform: 'translateX(-50%) rotateY(90deg)',
+        'display': 'none'
+      })),
+      transition('* => *', animate('500ms ease')),
     ])
   ]
 })
@@ -39,6 +51,6 @@ export class SidebarComponent implements OnInit {
    }
 
   toggleSidebar(){
-    this.state = this.state === "hide"? "show":"hide"  
+    this.state = this.state === "hide"? "show":"hide";
   }
 }

@@ -10,17 +10,22 @@ import { Subscription } from 'rxjs';
 })
 export class HeaderComponent implements OnInit, OnDestroy {
   private subs : Subscription;
-
+  isadmin:boolean=false;
   LoggedIn:boolean = false;
   
   constructor(private router:Router,
       private appSer:AppService) { }
 
   ngOnInit() {
+    this.LoggedIn = localStorage.getItem('token') === null ? false :<any>localStorage.getItem('token');
+    // this.isadmin = localStorage.getItem('isadmin') === null ? false :<any>localStorage.getItem('isadmin');
+    // alert(this.isadmin);
     this.subs = this.appSer.userStatusChanged.subscribe(
-      (token:any)=>{
+      (userInfo:any)=>{
         //alert(token);
-        this.LoggedIn = token === null?false:true;
+        this.LoggedIn = userInfo.loggedin;
+        this.isadmin = userInfo.isadmin;
+        // alert(this.isadmin);
       }
     );
   }

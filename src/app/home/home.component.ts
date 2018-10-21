@@ -18,6 +18,7 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
     this.chapters = this.appDataSer.getLinks('Angular Basics');
 
+   
     this.actRoute.queryParams
       .subscribe(params => {
         if(params.val){

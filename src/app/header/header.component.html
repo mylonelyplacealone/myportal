@@ -14,10 +14,10 @@
     </div>
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav">
-        <li><a routerLink="home">Course Details</a></li>
+        <li><a routerLink="coursedetails">Course Details</a></li>
         <li><a routerLink="code">Code</a></li>
         <li><a routerLink="example">Examples</a></li>
-        <li><a routerLink="users">Users</a></li>
+        <li *ngIf="isadmin"><a routerLink="users">Users</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li *ngIf="!LoggedIn"><a routerLink="signup">Register</a></li>

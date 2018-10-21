@@ -7,32 +7,55 @@ import { MenuItem } from '../sidebar/menuitem.model';
   })
 export class AppDataService{ 
 
-    menus:MenuItem[] = [
-        new MenuItem('Home', 1, []),
-        new MenuItem('Angular Basics', 1 , [
-          new MenuItem('Interpolation', 2, [], 'Interpolation'),
-          new MenuItem('Proprty Binding', 2, [], 'Property Binding'),
-          new MenuItem('Two-Way Data Binding', 2, [], 'Two-Way Data Binding'),
-          new MenuItem('Event Binding', 2, [], 'Event Binding'),
-         ], ''),
-        new MenuItem('Project Setup', 1 , [
-          new MenuItem('Install NodeJS', 2, []),
-          new MenuItem('Create Project', 2, []),
-          new MenuItem('Build Command', 2, []),
-          ]),
-        new MenuItem('Project Structure', 1 , [
-          new MenuItem('App Folder', 2, []),
-          new MenuItem('App.Module.JS', 2, []),
-          new MenuItem('.css.ts Files', 2, []),
-          new MenuItem('.html.ts Files', 2, []),
-          new MenuItem('.component.ts Files', 2, []),
-          ]),
-        new MenuItem('Routing', 1, []),
-        new MenuItem('Pipes', 1, []),
-        new MenuItem('Services', 1, []),
-        new MenuItem('HTTP Client', 1, []),
-        new MenuItem('Angular Animations', 1, []),
-      ];
+  menus:MenuItem[] = [
+    new MenuItem('Welcome', 1, [], "glyphicon glyphicon-globe", 'welcome'),
+    new MenuItem('Envirnment Setup', 1, [], "glyphicon glyphicon-wrench", 'environmentsetup'),
+    new MenuItem('Project Structure', 1, [
+      new MenuItem('Angular Module', 2, [], "glyphicon glyphicon-tag", 'angularmodule'),
+      new MenuItem('Angular Components', 1, [], "glyphicon glyphicon-facetime-video", 'angularcomponents'),
+      new MenuItem('Angular Templating', 1, [], "glyphicon glyphicon-align-center", 'angulartemplating'),
+      new MenuItem('Angular CSS', 1, [], "glyphicon glyphicon-gift", 'angularcss'),
+    ], "glyphicon glyphicon-tasks", 'projectstructure'),
+    // new MenuItem('Angular Module', 1, [], 'angularmodule'),
+    // new MenuItem('Angular Components', 1, [], 'angularcomponents'),
+    // new MenuItem('Angular Templating', 1, [], 'angulartemplating'),
+    // new MenuItem('Angular CSS', 1, [], 'angularcss'),
+    new MenuItem('Angular Services', 1, [], "glyphicon glyphicon-fullscreen", 'services'),
+    new MenuItem('Angular Routing', 1, [], "glyphicon glyphicon-send", 'routing'),
+    new MenuItem('HTTP Client', 1, [], "glyphicon glyphicon-user", 'httpclient'),
+    new MenuItem('Angular Animations', 1, [], "glyphicon glyphicon-plane", 'animations'),
+    
+  ];
+
+    // menus:MenuItem[] = [
+    //     new MenuItem('Home', 1, [], ''),
+    //     new MenuItem('About', 1, [], 'about'),
+    //     new MenuItem('Contact', 1, [], 'contact'),
+    //     new MenuItem('Location', 1, [], 'location'),
+    //     new MenuItem('Angular Basics', 1 , [
+    //       new MenuItem('Interpolation', 2, [], 'Interpolation'),
+    //       new MenuItem('Proprty Binding', 2, [], 'Property Binding'),
+    //       new MenuItem('Two-Way Data Binding', 2, [], 'Two-Way Data Binding'),
+    //       new MenuItem('Event Binding', 2, [], 'Event Binding'),
+    //      ], ''),
+    //     new MenuItem('Project Setup', 1 , [
+    //       new MenuItem('Install NodeJS', 2, []),
+    //       new MenuItem('Create Project', 2, []),
+    //       new MenuItem('Build Command', 2, []),
+    //       ]),
+    //     new MenuItem('Project Structure', 1 , [
+    //       new MenuItem('App Folder', 2, []),
+    //       new MenuItem('App.Module.JS', 2, []),
+    //       new MenuItem('.css.ts Files', 2, []),
+    //       new MenuItem('.html.ts Files', 2, []),
+    //       new MenuItem('.component.ts Files', 2, []),
+    //       ]),
+    //     new MenuItem('Routing', 1, []),
+    //     new MenuItem('Pipes', 1, []),
+    //     new MenuItem('Services', 1, []),
+    //     new MenuItem('HTTP Client', 1, []),
+    //     new MenuItem('Angular Animations', 1, []),
+    //   ];
 
     filteredList:Chapter[] = [];
     links:Chapter[] = [

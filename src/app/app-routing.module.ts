@@ -7,10 +7,12 @@ import { AuthGuard } from './auth/common/auth-guard.service';
 import { UsersComponent } from './users/users.component';
 import { CodeComponent } from './code/code.component';
 import { ExampleComponent } from './example/example.component';
+import { CoursedetailsComponent } from './coursedetails/coursedetails.component';
 
 const appRoutes: Routes = [
     { path: '', component: SigninComponent},
     { path: 'home', component: HomeComponent, canActivate: [AuthGuard]},
+    { path: 'coursedetails', component: CoursedetailsComponent, canActivate: [AuthGuard]},
     { path: 'code', component: CodeComponent, canActivate: [AuthGuard]},
     { path: 'example', component: ExampleComponent, canActivate: [AuthGuard]},
     { path: 'signin', component: SigninComponent},

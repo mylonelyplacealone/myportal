@@ -18,6 +18,8 @@ import { CodeComponent } from './code/code.component';
 import { ExampleComponent } from './example/example.component';
 import { LoaderComponent } from './auth/loader/loader.component';
 import { LoaderInterceptorService } from './auth/loader/loader.intercepter';
+import { safe } from './code/safehtml.pipe';
+import { CoursedetailsComponent } from './coursedetails/coursedetails.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +32,9 @@ import { LoaderInterceptorService } from './auth/loader/loader.intercepter';
     SidebarComponent,
     CodeComponent,
     ExampleComponent,
-    LoaderComponent
+    LoaderComponent,
+    safe,
+    CoursedetailsComponent
   ],
   imports: [
     BrowserModule,

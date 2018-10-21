@@ -9,7 +9,7 @@ import { Injectable } from '@angular/core';
     providedIn: 'root'
   })
 export class AppService{  
-    userStatusChanged = new Subject<any>();
+    userStatusChanged = new Subject<{loggedin:any,isadmin:any}>();
     BaseUrl = "https://mydeckrestapi.herokuapp.com/";//"http://localhost:5000/";//
     header = new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded');
 
@@ -31,7 +31,7 @@ export class AppService{
           } else{
             localStorage.setItem('token',  res['token']);
             // console.log(localStorage.getItem('token'));
-            this.userStatusChanged.next(localStorage.getItem('token'));
+            this.userStatusChanged.next({loggedin: this.returnValue(localStorage.getItem('token')), isadmin: this.returnValue(localStorage.getItem('isadmin'))});
             return new APIResponse({
                 result: true,
                 message: res['message']
@@ -54,26 +54,31 @@ export class AppService{
           } else{
             localStorage.setItem('token',  res['token']);
             // console.log(localStorage.getItem('token'));
+            localStorage.setItem('isadmin', res['user'].admin);
             // console.log('token');
-            this.userStatusChanged.next(localStorage.getItem('token'));
+            // this.userStatusChanged.next(localStorage.getItem('token'));
+            this.userStatusChanged.next({loggedin: localStorage.getItem('token'), isadmin: localStorage.getItem('isadmin')});
+
             return new APIResponse({
                 result: true,
-                message: res['message']
+                message: res['message'],
+                user:res['user']
             });
           }
         }));
     }
 
-    isUserLoggedIn(){
-        this.userStatusChanged.next(localStorage.getItem('token'));
+    returnValue(val):boolean{
+        return (val === null?false:val);
     }
 
     onLogout(){
         localStorage.removeItem('token');
-        this.userStatusChanged.next(null);
+        localStorage.removeItem('isadmin');
+        this.userStatusChanged.next({loggedin: null, isadmin: null});
     }
 
     getUsers(){
         return this.httpClient.get(this.BaseUrl + 'api/users?token=' + localStorage.getItem('token'));
-      }
+    }
 }

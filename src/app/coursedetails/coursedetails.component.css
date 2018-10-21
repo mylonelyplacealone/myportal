@@ -1,0 +1,38 @@
+.page  {
+    display: flex;
+}
+
+.content{
+    height:500px;
+    /* height:88vh; */
+    margin-left:50px;
+    margin-top:-10px;
+    overflow: auto;
+    overflow-x: hidden;
+    width:100%;
+}
+
+
+:host ::ng-deep .panel-default>.panel-heading{
+    background-repeat: no-repeat;
+    background-image: linear-gradient(180deg,black, rgba(31, 32, 32, 0.87));
+}
+
+:host ::ng-deep .panel-default>.panel-heading a {
+    color:#9d9d9d;
+}
+
+:host ::ng-deep .panel-body{
+    background-color: #9a9a;
+}
+
+:host ::ng-deep .panel-collapse.collapse.in{
+    height:0% !important;
+}
+
+:host ::ng-deep .bgred{
+    background-color: red;
+}
+:host ::ng-deep .bgyellow{
+    background-color: yellow;
+}
