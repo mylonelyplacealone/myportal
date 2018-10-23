@@ -5,19 +5,29 @@
       <img src="../../../assets/logo.png" alt="" class="profile-img-card">
 
       <p id="profile-name" class="profile-name-card"></p>
-      <form class="form-signin" (ngSubmit)="onSignIn(f)" #f="ngForm">
+      <form name="form" class="form-signin" (ngSubmit)="onSignIn(f)" #f="ngForm">
           <span id="reauth-email" class="reauth-email"></span>
           <input type="email" id="inputEmail" class="form-control" placeholder="Email address"
-            name="email" ngModel required autofocus>
+            name="email" #email="ngModel" minlength="10"  ngModel required email autofocus>
+            <!-- <div *ngIf="email.invalid && (email.dirty || email.touched)" class="alert alert-danger"> -->
+            <div *ngIf="email.invalid && (email.dirty || email.touched)" class="errMessage">
+                <div *ngIf="email.errors.required">Email is required.</div>
+                <div *ngIf="email.errors.minlength">Email must be at least 10 characters long.</div>
+                <div *ngIf="email.errors.email">Email format invalid.</div>
+            </div>
           <input type="password" id="inputPassword" class="form-control" placeholder="Password" 
-            name="password" ngModel required>
+            name="password" #password="ngModel" minlength="6" ngModel required>
+            <div *ngIf="password.invalid && (password.dirty || password.touched)" class="errMessage">
+                <div *ngIf="password.errors.required">Password is required.</div>
+                <div *ngIf="password.errors.minlength">Password must be at least 6 characters long.</div>
+            </div>
           <!-- <div id="remember" class="checkbox">
               <label>
                   <input type="checkbox" value="remember-me"> Remember me
               </label>
           </div> -->
           <span class="errMessage" *ngIf="formNotValid">{{errMsg}}</span>
-          <button class="btn btn-lg btn-primary btn-block btn-signin" type="submit">Sign in</button>
+          <button class="btn btn-lg btn-primary btn-block btn-signin" [disabled]="f.invalid" type="submit">Sign in</button>
       </form><!-- /form -->
       <a href="#" class="forgot-password">
           Forgot the password?
