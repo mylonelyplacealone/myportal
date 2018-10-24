@@ -1,1 +1,43 @@
 <div class="inner-content"><h2>Angular 6 Routing Tutorial</h2>
+    <p>Now, let's make our 2 icons work when they're clicked. In order to do that, we need to visit the <strong>/src/app/app-routing.module.ts</strong>&nbsp;file.</p>
+    <p>This is what it looks like:</p>
+    <pre class=" language-javascript"><code class=" language-javascript"><span class="token keyword">import</span> <span class="token punctuation">{</span> NgModule <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@angular/core'</span><span class="token punctuation">;</span>
+    <span class="token keyword">import</span> <span class="token punctuation">{</span> Routes<span class="token punctuation">,</span> RouterModule <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@angular/router'</span><span class="token punctuation">;</span>
+    
+    <span class="token keyword">const</span> routes<span class="token punctuation">:</span> Routes <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+    
+    @<span class="token function">NgModule</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+      imports<span class="token punctuation">:</span> <span class="token punctuation">[</span>RouterModule<span class="token punctuation">.</span><span class="token function">forRoot</span><span class="token punctuation">(</span>routes<span class="token punctuation">)</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+      exports<span class="token punctuation">:</span> <span class="token punctuation">[</span>RouterModule<span class="token punctuation">]</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span>
+    <span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">AppRoutingModule</span> <span class="token punctuation">{</span> <span class="token punctuation">}</span></code></pre>
+    <p>We need to import our components at the top, and add them to the <em>Routes</em>&nbsp;array shown on line 4 above.</p>
+    <p>To do that, add the following:</p>
+    <pre class=" language-javascript"><code class=" language-javascript"><span class="token keyword">import</span> <span class="token punctuation">{</span> NgModule <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@angular/core'</span><span class="token punctuation">;</span>
+    <span class="token keyword">import</span> <span class="token punctuation">{</span> Routes<span class="token punctuation">,</span> RouterModule <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@angular/router'</span><span class="token punctuation">;</span>
+    <span class="token keyword">import</span> <span class="token punctuation">{</span> UsersComponent <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'./users/users.component'</span><span class="token punctuation">;</span>
+    <span class="token keyword">import</span> <span class="token punctuation">{</span> DetailsComponent <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'./details/details.component'</span><span class="token punctuation">;</span>
+    <span class="token keyword">import</span> <span class="token punctuation">{</span> PostsComponent <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'./posts/posts.component'</span><span class="token punctuation">;</span>
+    
+    <span class="token keyword">const</span> routes<span class="token punctuation">:</span> Routes <span class="token operator">=</span> <span class="token punctuation">[</span>
+      <span class="token punctuation">{</span>
+        path<span class="token punctuation">:</span> <span class="token string">''</span><span class="token punctuation">,</span>
+        component<span class="token punctuation">:</span> UsersComponent
+      <span class="token punctuation">}</span><span class="token punctuation">,</span>
+      <span class="token punctuation">{</span>
+        path<span class="token punctuation">:</span> <span class="token string">'details/:id'</span><span class="token punctuation">,</span>
+        component<span class="token punctuation">:</span> DetailsComponent
+      <span class="token punctuation">}</span><span class="token punctuation">,</span>
+      <span class="token punctuation">{</span>
+        path<span class="token punctuation">:</span> <span class="token string">'posts'</span><span class="token punctuation">,</span>
+        component<span class="token punctuation">:</span> PostsComponent
+      <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">]</span><span class="token punctuation">;</span></code></pre>
+    <p>We've imported our 3 components, and then defined three objects in the <em>Routes</em>&nbsp;array.</p>
+    <p>The first object specifies that the <em>UsersComponent</em>&nbsp;will be the default component that loads on the root path. We leave the path value empty forthis.</p>
+    <p>The next route is for a user details section. We've specified a wildcard named <em>id</em>. We'll use this to fetch that value from the router in order to retrieve the correct user details.</p>
+    <p>Then another route for a component and path called posts.</p>
+    <p>Save this file, and the browser should now show:</p>
+    <p><img style="display: block; margin: 0 auto; text-align: center; max-width: 100%;" src="https://s3.amazonaws.com/coursetro/posts/content_images/2-1527783929626.png"></p>
+    <p>Awesome!</p>
+    </div>

@@ -1,1 +1,18 @@
 <div class="inner-content"><h2>Angular 6 Services</h2>
+    <p>For our users component, we want to fetch a list of users from a public API. To do that, we're going to use the Angular CLI to generate a service for us.&nbsp;</p>
+    <p>An Angular 6 service is useful placing code that's reusable throughout your app's different components.</p>
+    <p>In the console, type:</p>
+    <pre class=" language-markup"><code class=" language-markup">&gt; ng generate service data</code></pre>
+    <p>Open up the new service file: <strong>/src/app/data.service.ts</strong>:</p>
+    <pre class=" language-javascript"><code class=" language-javascript"><span class="token keyword">import</span> <span class="token punctuation">{</span> Injectable <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@angular/core'</span><span class="token punctuation">;</span>
+    
+    @<span class="token function">Injectable</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+      providedIn<span class="token punctuation">:</span> <span class="token string">'root'</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span>
+    <span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">DataService</span> <span class="token punctuation">{</span>
+    
+      <span class="token function">constructor</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span></code></pre>
+    <p>It looks similar to a regular component, right? You define your imports at the top, and your methods and properties in the class that's exported.</p>
+    <p>The purpose of our service file will be to communicate with an API via the Angular 6 HTTP Client.</p>
+    </div>

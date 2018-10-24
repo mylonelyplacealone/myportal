@@ -1,1 +1,24 @@
 <div class="inner-content"><h2>The Angular 6 Module File</h2>
+  <p>Before we tackle components, it's worth looking at the <strong>/src/app/app.module.ts</strong>&nbsp;file. Oh, and by the way, what is that <strong>.ts</strong>&nbsp;extension? It stands for TypeScript, and Angular 6 uses TypeScript. In short, TypeScript provides strong type checking on JavaScript.&nbsp;</p>
+  <p>The <strong>app.module.ts</strong>&nbsp;file looks like this:</p>
+  <pre class=" language-javascript"><code class=" language-javascript"><span class="token keyword">import</span> <span class="token punctuation">{</span> BrowserModule <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@angular/platform-browser'</span><span class="token punctuation">;</span>
+  <span class="token keyword">import</span> <span class="token punctuation">{</span> NgModule <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@angular/core'</span><span class="token punctuation">;</span>
+  
+  <span class="token keyword">import</span> <span class="token punctuation">{</span> AppRoutingModule <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'./app-routing.module'</span><span class="token punctuation">;</span>
+  <span class="token keyword">import</span> <span class="token punctuation">{</span> AppComponent <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'./app.component'</span><span class="token punctuation">;</span>
+  
+  @<span class="token function">NgModule</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+    declarations<span class="token punctuation">:</span> <span class="token punctuation">[</span>
+      AppComponent
+    <span class="token punctuation">]</span><span class="token punctuation">,</span>
+    imports<span class="token punctuation">:</span> <span class="token punctuation">[</span>
+      BrowserModule<span class="token punctuation">,</span>
+      AppRoutingModule
+    <span class="token punctuation">]</span><span class="token punctuation">,</span>
+    providers<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+    bootstrap<span class="token punctuation">:</span> <span class="token punctuation">[</span>AppComponent<span class="token punctuation">]</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span>
+  <span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">AppModule</span> <span class="token punctuation">{</span> <span class="token punctuation">}</span></code></pre>
+  <p>Whenever you use the CLI to generate components and services, it will automatically update this file to import and add them to the <em>@NgModule</em>&nbsp;decorator. Components are added to the <em>declarations</em>&nbsp;array, and services are added as <em>providers</em>. You will also find yourself adding various imports to the <em>imports</em>&nbsp;array. For instance, when we want to add animations, we will add them here.</p>
+  <p>If you're a little confused at this point, don't worry. Just understand that this is an important file that you will need to visit routinely. The CLI will take care of things for the most part, especially when generating components, but when generating services and performing some other tasks, you will need to visit this file. You'll see as a proceed.</p>
+  </div>

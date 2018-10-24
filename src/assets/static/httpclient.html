@@ -1,1 +1,68 @@
 <div class="inner-content"><h2>Angular 6 HTTP Client</h2>
+    <p>Angular comes with a built in HTTPClient. Let's import that at the top of our <strong>data.service.ts</strong>&nbsp;file:</p>
+    <pre class=" language-javascript"><code class=" language-javascript"><span class="token keyword">import</span> <span class="token punctuation">{</span> Injectable <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@angular/core'</span><span class="token punctuation">;</span>
+    <span class="token keyword">import</span> <span class="token punctuation">{</span> HttpClient <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@angular/common/http'</span><span class="token punctuation">;</span></code></pre>
+    <p>Next, in order to use the HttpClient, we need to create an instance of it through dependency injection within the constructor:</p>
+    <pre class=" language-javascript"><code class=" language-javascript">  <span class="token function">constructor</span><span class="token punctuation">(</span><span class="token keyword">private</span> http<span class="token punctuation">:</span> HttpClient<span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token punctuation">}</span>
+    
+      <span class="token function">getUsers</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token keyword">this</span><span class="token punctuation">.</span>http<span class="token punctuation">.</span><span class="token keyword">get</span><span class="token punctuation">(</span><span class="token string">'<a class="vglnk" href="https://jsonplaceholder.typicode.com/users" rel="nofollow"><span>https</span><span>://</span><span>jsonplaceholder</span><span>.</span><span>typicode</span><span>.</span><span>com</span><span>/</span><span>users</span></a>'</span><span class="token punctuation">)</span>
+      <span class="token punctuation">}</span>
+    </code></pre>
+    <p>We also defined a method called <em>getUsers()</em>&nbsp;which we'll call in our component shortly. It returns a list of users from a public testing API.</p>
+    <p>Before we can use the HTTPClient, we need to add as an import in our app's <strong>/src/app/app.module.ts</strong>&nbsp;file:</p>
+    <pre class=" language-javascript"><code class=" language-javascript"><span class="token comment" spellcheck="true">// Other imports removed for brevity</span>
+    
+    <span class="token keyword">import</span> <span class="token punctuation">{</span> HttpClientModule <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@angular/common/http'</span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">// &lt;-Add here</span>
+    
+    @<span class="token function">NgModule</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+      declarations<span class="token punctuation">:</span> <span class="token punctuation">[</span>
+        <span class="token comment" spellcheck="true">// Removed for brevity</span>
+      <span class="token punctuation">]</span><span class="token punctuation">,</span>
+      imports<span class="token punctuation">:</span> <span class="token punctuation">[</span>
+        BrowserModule<span class="token punctuation">,</span>
+        AppRoutingModule<span class="token punctuation">,</span>
+        HttpClientModule<span class="token punctuation">,</span>  <span class="token comment" spellcheck="true">// &lt;-Add here</span>
+      <span class="token punctuation">]</span><span class="token punctuation">,</span>
+      providers<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+      bootstrap<span class="token punctuation">:</span> <span class="token punctuation">[</span>AppComponent<span class="token punctuation">]</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span></code></pre>
+    <p>Great!</p>
+    <p>Next, let's open up the <strong>/src/app/users/users.component.ts</strong>&nbsp;file and import our service:</p>
+    <pre class=" language-javascript"><code class=" language-javascript"><span class="token keyword">import</span> <span class="token punctuation">{</span> Component<span class="token punctuation">,</span> OnInit <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@angular/core'</span><span class="token punctuation">;</span>
+    <span class="token keyword">import</span> <span class="token punctuation">{</span> DataService <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'../data.service'</span><span class="token punctuation">;</span>
+    <span class="token keyword">import</span> <span class="token punctuation">{</span> Observable <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'rxjs'</span><span class="token punctuation">;</span></code></pre>
+    <p>To display the results, we're going to use an Observable, so we're importing it here, too.&nbsp;</p>
+    <p>In the class, add:</p>
+    <pre class=" language-javascript"><code class=" language-javascript"><span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">UsersComponent</span> <span class="token keyword">implements</span> <span class="token class-name">OnInit</span> <span class="token punctuation">{</span>
+    
+      users$<span class="token punctuation">:</span> Object<span class="token punctuation">;</span>
+      
+      <span class="token function">constructor</span><span class="token punctuation">(</span><span class="token keyword">private</span> data<span class="token punctuation">:</span> DataService<span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token punctuation">}</span>
+    
+      <span class="token function">ngOnInit</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>data<span class="token punctuation">.</span><span class="token function">getUsers</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">subscribe</span><span class="token punctuation">(</span>
+          data <span class="token operator">=</span><span class="token operator">&gt;</span> <span class="token keyword">this</span><span class="token punctuation">.</span>users$ <span class="token operator">=</span> data 
+        <span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token punctuation">}</span>
+    
+    <span class="token punctuation">}</span></code></pre>
+    <p>In the constructor, we're creating an instance of our service. Then, within the lifecycle hook <em>ngOnInit()</em>&nbsp;(this runs when the component loads), we're calling our <em>getUsers()</em>&nbsp;method and subscribing to it. Inside, we're binding our <em>users$</em>&nbsp;object to the result returned by the API.</p>
+    <p>Next, open up <strong>/src/app/users/users.component.html</strong>:</p>
+    <pre class=" language-markup"><code class=" language-markup"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>h1</span><span class="token punctuation">&gt;</span></span>Users<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>h1</span><span class="token punctuation">&gt;</span></span>
+    
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ul</span><span class="token punctuation">&gt;</span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>li</span> <span class="token attr-name">*ngFor</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>let user of users$<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>a</span> <span class="token attr-name">routerLink</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>/details/{{user.id}}<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>{{ user.name }}<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>a</span><span class="token punctuation">&gt;</span></span>
+    
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ul</span><span class="token punctuation">&gt;</span></span>
+          <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>li</span><span class="token punctuation">&gt;</span></span>{{ user.email }}<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>li</span><span class="token punctuation">&gt;</span></span>
+          <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>li</span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>a</span> <span class="token attr-name">href</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>http://{{ user.website }}<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>{{ user.website }}<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>a</span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>li</span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>ul</span><span class="token punctuation">&gt;</span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>li</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>ul</span><span class="token punctuation">&gt;</span></span>
+    </code></pre>
+    <p>Whenever you wish to iterate over an array or array of objects, you use the Angular directive *<strong>ngFor</strong>. We then use interpolation brackets to call upon the properties of the returned object to display them in the browser!</p>
+    <p>If you save this and refresh, you should now see a list of users and their information:</p>
+    <p><img style="display: block; margin: 0 auto; text-align: center; max-width: 100%;" src="https://s3.amazonaws.com/coursetro/posts/content_images/3-1527785324850.png"></p>
+    </div>

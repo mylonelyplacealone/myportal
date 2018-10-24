@@ -1,1 +1,45 @@
 <div class="inner-content"><h2>Angular 6 Components Tutorial</h2>
+  <p>A component in Angular 6 provides you with the basic building blocks of your Angular app. When we used the Angular CLI to generate our project, it created a single component.</p>
+  <p>When you use the CLI to generate components, it creates 4 files:</p>
+  <pre class=" language-markup"><code class=" language-markup">&gt; src
+    &gt; app
+      app.component.html
+      app.component.scss (or .css)
+      app.component.spec.ts
+      app.component.ts</code></pre>
+  <ul>
+  <li>The HTML file is the HTML template associated with that component.</li>
+  <li>The SCSS or CSS is the associated CSS rulesets for that component (whatever is defined in the HTML file)</li>
+  <li>The <em>.spec.ts</em>&nbsp;file is for testing purposes.</li>
+  <li>The <em>.ts</em>&nbsp;file is the actual component file, and it's where you will likely spend most of your time. It defines a number of things.</li>
+  </ul>
+  <p>Open up the <strong>app.component.ts</strong>&nbsp;file:</p>
+  <pre class=" language-javascript"><code class=" language-javascript"><span class="token keyword">import</span> <span class="token punctuation">{</span> Component <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@angular/core'</span><span class="token punctuation">;</span>
+  
+  @<span class="token function">Component</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+    selector<span class="token punctuation">:</span> <span class="token string">'app-root'</span><span class="token punctuation">,</span>
+    templateUrl<span class="token punctuation">:</span> <span class="token string">'./app.component.html'</span><span class="token punctuation">,</span>
+    styleUrls<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">'./app.component.scss'</span><span class="token punctuation">]</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span>
+  
+  <span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">AppComponent</span> <span class="token punctuation">{</span>
+    title <span class="token operator">=</span> <span class="token string">'app'</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span></code></pre>
+  <p>At the top, we have our imports. You will import other components here, along with service files. We'll do that a little later.</p>
+  <p>The <em>@Component</em>&nbsp;decorator is an object with associated property / value pairs that defines important stuff associated with this component. For instance, you will see <strong>selector: 'app-root'</strong>&nbsp;- This provides this component with a unique identifier that is used in other areas of the app. You can also see <em>templateUrl</em>&nbsp;and <em>styleUrls</em>, which tells Angular where this component's HTML and CSS files are located. There are other properties that can be added here, such as animations, but we'll get to that later.</p>
+  <p>Finally, we have the logic section of the component file. This is where properties (we see that <em>title</em>&nbsp;was defined by the CLI), dependency injection and methods are defined.</p>
+  <p>Now that you understand the very basics of a component, let's create a few of our own!</p>
+  <p>In the console, run:</p>
+  <pre class=" language-markup"><code class=" language-markup">&gt; ng generate component sidebar
+  CREATE src/app/sidebar/sidebar.component.html (26 bytes)
+  CREATE src/app/sidebar/sidebar.component.spec.ts (635 bytes)
+  CREATE src/app/sidebar/sidebar.component.ts (274 bytes)
+  CREATE src/app/sidebar/sidebar.component.scss (0 bytes)
+  UPDATE src/app/app.module.ts (479 bytes)</code></pre>
+  <p>Here, we've told the CLI to <strong>generate</strong>&nbsp;a <strong>component</strong>&nbsp;with the name of <strong>sidebar</strong>. It outputs the 4 files it created, along with the app module file it updated!</p>
+  <p>Let's generate a few more components. Run the following commands to generate 3 more components:</p>
+  <pre class=" language-markup"><code class=" language-markup">&gt; ng g c posts
+  &gt; ng g c users
+  &gt; ng g c details</code></pre>
+  <p>Now, you should have a total of 5 components, 4 of which we just created ourselves. Shortly, you'll see how all of these start to work with each other and in relation to the app.</p>
+  </div>

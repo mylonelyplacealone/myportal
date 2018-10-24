@@ -1,1 +1,25 @@
 <div class="inner-content"><h2>How to Install Angular 6</h2>
+    <p>The most quickest way to start up with Angular application is with the Angular CLI (Command Line Interface).&nbsp;</p>
+    <p>This can be downloaded from the node package manager(npm). To check whether you have npm, open up windows command prompt or your IDE terminal window and type:</p>
+    <pre class=" language-markup"><code class=" language-markup">&gt; npm -v</code></pre>
+    <p>If we get some version information then we are good to move to next step. Otherwise if you receive unrecognized (and not a version number), you need to install <a href="https://nodejs.org/en/download/">NodeJS</a>. Once you install NodeJS, you will have access to npm.</p>
+    <p>Now, npm is ready to install the Angular CLI.</p>
+    <p>The Angular CLI official link - <a href="https://cli.angular.io/">Angular CLI</a>.</p>
+    <p>You can follow above official link for the commands to run to setup Angular CLI. Otherwise continue next steps which will run you thorugh same steps.</p>
+    <pre class=" language-markup"><code class=" language-markup">&gt; npm install -g @angular/cli</code></pre>
+    <p>If you run <em>ng -v</em>&nbsp;after installing, it will provide you with the version number.</p>
+    <p>Once the CLI is installed, let's create our first a brand new Angular 6 project with below command:</p>
+    <pre class=" language-markup"><code class=" language-markup">&gt; ng new [Your Project Name Here] --routing</code></pre>
+    <ul>
+    <li><strong>ng</strong>&nbsp;- This is how we need to call the Angular CLI.</li>
+    <li><strong>new</strong>&nbsp;- This is one of the many commands we can run/execute with the Angular CLI.</li>
+    <li><strong>[Your Project Name Here]</strong>&nbsp;= This is the name of our project we want to create. The CLI will create a folder with this name under the folder where you are running this command.</li>
+    <li><strong>--routing</strong>&nbsp;- This is the optional flag out of plenty available. This will create a routing file for us inside the project which we will be using for application page routing.</li>
+    </ul>
+    <p>To check out all of the available commands and options, run <strong>ng</strong>&nbsp;at the command line.</p>
+    <p>Once the CLI has generated the new project, you can check into it:</p>
+    <pre class=" language-markup"><code class=" language-markup">&gt; cd [Your Project Name Here]</code></pre>
+    <p>If you use Visual Studio Code, you can type <em>code .</em>&nbsp;to launch the code editor. Then, to start serving the project to the browser, you need to run:</p>
+    <pre class=" language-markup"><code class=" language-markup">&gt; ng serve -o</code></pre>
+    <p>The -o flag tells the CLI to launch your browser with the project. Now, you're able to watch your Angular 6 project as you code and it will be automatically reload on each updates in teh application.</p>
+    </div>
