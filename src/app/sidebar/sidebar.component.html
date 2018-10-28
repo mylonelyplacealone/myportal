@@ -8,10 +8,11 @@
   <ul>
     <li *ngFor="let menu1 of menulevel;let i = index" class="parent-item"
         [ngClass]="{'selected': selectedItemId === i}" > 
-      <a (click)="selectedItemId = i" [routerLink]="['/coursedetails']" [queryParams]="{val:menu1.link}">{{menu1.name}}</a>
+      <a (click)="selectedItemId = i" [routerLink]="['/coursedetails']" 
+        [queryParams]="{val:menu1.parent + '/' +menu1.link}">{{menu1.name}}</a>
       <ul *ngIf="menu1.children" class="child-item">
         <li *ngFor="let menu2 of menu1.children" >
-          <a [routerLink]="['../coursedetails']" [queryParams]="{val:menu2.link}">{{menu2.name}}</a>
+          <a [routerLink]="['../coursedetails']" [queryParams]="{val:menu2.parent + '/' + menu2.link}">{{menu2.name}}</a>
         </li>
       </ul>
     </li>
@@ -21,12 +22,13 @@
   <ul>
     <li *ngFor="let menu1 of menulevel;let i = index" class="parent-item-small"
         [ngClass]="{'selected': selectedItemId === i}" [title]="menu1.name"> 
-      <a (click)="selectedItemId = i" [routerLink]="['/coursedetails']" [queryParams]="{val:menu1.link}">
+      <a (click)="selectedItemId = i" [routerLink]="['/coursedetails']" 
+      [queryParams]="{val:menu1.parent + '/' + menu1.link}">
        <!-- <img src="../../assets/logo.png" alt=""> -->
       <span [ngClass]="menu1.icon"></span></a>
       <ul *ngIf="menu1.children" class="child-item-small">
         <li *ngFor="let menu2 of menu1.children" [title]="menu2.name">
-          <a [routerLink]="['../coursedetails']" [queryParams]="{val:menu2.link}">
+          <a [routerLink]="['../coursedetails']" [queryParams]="{val:menu2.parent + '/' + menu2.link}">
             <span [ngClass]="menu2.icon"></span>
             <!-- <img src="../../assets/logo.png" alt="">  -->
           </a>

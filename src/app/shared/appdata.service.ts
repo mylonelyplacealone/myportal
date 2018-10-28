@@ -8,24 +8,34 @@ import { MenuItem } from '../sidebar/menuitem.model';
 export class AppDataService{ 
 
   menus:MenuItem[] = [
-    new MenuItem('Welcome', 1, [], "glyphicon glyphicon-globe", 'welcome'),
-    new MenuItem('Envirnment Setup', 1, [], "glyphicon glyphicon-wrench", 'environmentsetup'),
-    new MenuItem('Project Structure', 1, [
-      new MenuItem('Angular Module', 2, [], "glyphicon glyphicon-tag", 'angularmodule'),
-      new MenuItem('Angular Components', 1, [], "glyphicon glyphicon-facetime-video", 'angularcomponents'),
-      new MenuItem('Angular Templating', 1, [], "glyphicon glyphicon-align-center", 'angulartemplating'),
-      new MenuItem('Angular CSS', 1, [], "glyphicon glyphicon-gift", 'angularcss'),
-    ], "glyphicon glyphicon-tasks", 'projectstructure'),
-    // new MenuItem('Angular Module', 1, [], 'angularmodule'),
-    // new MenuItem('Angular Components', 1, [], 'angularcomponents'),
-    // new MenuItem('Angular Templating', 1, [], 'angulartemplating'),
-    // new MenuItem('Angular CSS', 1, [], 'angularcss'),
-    new MenuItem('Angular Services', 1, [], "glyphicon glyphicon-fullscreen", 'services'),
-    new MenuItem('Angular Routing', 1, [], "glyphicon glyphicon-send", 'routing'),
-    new MenuItem('HTTP Client', 1, [], "glyphicon glyphicon-user", 'httpclient'),
-    new MenuItem('Angular Animations', 1, [], "glyphicon glyphicon-plane", 'animations'),
-    
+      new MenuItem('Getting Started', 1, "1_gettingstarted", "glyphicon glyphicon-globe", [
+        new MenuItem('Architecture', 2, "1_gettingstarted", "glyphicon glyphicon-tag", [], '2_architecture'),
+        new MenuItem('Setup Dev Environment', 2, "1_gettingstarted", "glyphicon glyphicon-tasks", [], '3_setupdevelopmentenvironment'),
+        new MenuItem('First Angular App', 2, "1_gettingstarted", "glyphicon glyphicon-user", [], '4_firstapp'),
+        new MenuItem('Project Structure', 2, "1_gettingstarted", "glyphicon glyphicon-fullscreen", [], '5_projectstructure'),
+        new MenuItem('Version History', 2, "1_gettingstarted", "glyphicon glyphicon-send",[],  '6_versionhistory'),
+      ],  '1_gettingstarted')
   ];
+
+  // [
+  //   new MenuItem('Welcome', 1, [], "glyphicon glyphicon-globe", 'welcome'),
+  //   new MenuItem('Envirnment Setup', 1, [], "glyphicon glyphicon-wrench", 'environmentsetup'),
+  //   new MenuItem('Project Structure', 1, [
+  //     new MenuItem('Angular Module', 2, [], "glyphicon glyphicon-tag", 'angularmodule'),
+  //     new MenuItem('Angular Components', 1, [], "glyphicon glyphicon-facetime-video", 'angularcomponents'),
+  //     new MenuItem('Angular Templating', 1, [], "glyphicon glyphicon-align-center", 'angulartemplating'),
+  //     new MenuItem('Angular CSS', 1, [], "glyphicon glyphicon-gift", 'angularcss'),
+  //   ], "glyphicon glyphicon-tasks", 'projectstructure'),
+  //   // new MenuItem('Angular Module', 1, [], 'angularmodule'),
+  //   // new MenuItem('Angular Components', 1, [], 'angularcomponents'),
+  //   // new MenuItem('Angular Templating', 1, [], 'angulartemplating'),
+  //   // new MenuItem('Angular CSS', 1, [], 'angularcss'),
+  //   new MenuItem('Angular Services', 1, [], "glyphicon glyphicon-fullscreen", 'services'),
+  //   new MenuItem('Angular Routing', 1, [], "glyphicon glyphicon-send", 'routing'),
+  //   new MenuItem('HTTP Client', 1, [], "glyphicon glyphicon-user", 'httpclient'),
+  //   new MenuItem('Angular Animations', 1, [], "glyphicon glyphicon-plane", 'animations'),
+    
+  // ];
 
     // menus:MenuItem[] = [
     //     new MenuItem('Home', 1, [], ''),
