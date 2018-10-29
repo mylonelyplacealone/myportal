@@ -1,0 +1,56 @@
+<div class="inner-content"><h2>Event Binding</h2>
+
+<p>Now, we are only setting the values to DOM element properties, but there is no way to retrieve DOM element properties.</p>
+
+<p>For example, there might be a situation, where the user will fill up a form or click a button, which results in flow of data from view to our components class. This is where event binding comes into the picture by helping us to capture the data flow from the view to the component.</p>
+
+<p>In order to understand Event Binding better, let’s first create a button, as shown below.</p>
+
+<pre class="language-markup code-panel"><code class="language-markup">@Component({  
+    selector: "my-tuts",  
+    template: `&lt;h2>{{title}}&lt;/h2>  
+                &lt;button>Click me&lt;/button>
+              `  
+})</code></pre>
+
+<p>Just like how we have square brackets for property binding, for event binding we use ().</p>
+
+<pre class="language-markup code-panel"><code class="language-markup">&lt;button(click)="onClick()">Click me&lt;/button></code></pre>
+
+<p>Let’s say there's a click event of a button. Whenever a click event is raised, let us call a method called OnClick.</p>
+<p>In our class, let’s define the method, as shown below.</p>
+
+<pre class="language-markup code-panel"><code class="language-markup">onClick(){  
+    console.log('ButtonClicked');
+}</code></pre>
+
+<p>Save this and run it -- the  output is as below,</p>
+<p>When I click button for the first time, the log in the console looks, as shown below.</p>
+<pre class="language-markup code-panel"><code class="language-markup">ButtonClicked</code></pre>
+
+<p>For the second time, the count increases, as shown below.</p>
+<pre class="language-markup code-panel"><code class="language-markup">(2)ButtonClicked</code></pre>
+
+<p>Now, in Angular, it is very easy to reference HTML tags or the elements. Now, to reference an element, all we need to do is use hash (#) symbol with any random variable, as shown below. </p>
+<pre class="language-markup code-panel"><code class="language-markup">&lt;input type=text #demoInput>`</code></pre>  
+<p>In order to get the data which is flowing from an input tag, we can use reference variable.</p>
+
+<p>For example, let’s say, we passed demoInput.value as one of the parameter to on click method.</p>
+<pre class="language-markup code-panel"><code class="language-markup">&lt;button (click)="onClick(demoInput.value)">Click me&lt;/button></code></pre>  
+<p>Pass the value to onClick value and log the value, as shown below.</p>
+<pre class="language-markup code-panel"><code class="language-markup">export class RathrolaComponent {  
+    public title = "Tutorials from Rathrola";  
+    onClick(value) {  
+        console.log(value);  
+    }  
+} </code></pre> 
+<p>Save and run.</p>
+
+<p>Input some value say 'Hello world' and click button and watch in the console. It is going to log the input field, as shown below.</p>
+
+<p>That is how Event binding happens; we have bound the button click event with handler called on click. We are going to use the reference to input the elements. By passing its value, we can retrieve the value in our class.</p>
+
+<p>Finally to capture the event, we use $event, as shown below.</p>
+
+<pre class="language-markup code-panel"><code class="language-markup">&lt;button (click)="onClick($event)">Click me&lt;/button> </code></pre>
+</div>

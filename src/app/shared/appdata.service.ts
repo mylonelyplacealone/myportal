@@ -14,7 +14,23 @@ export class AppDataService{
         new MenuItem('First Angular App', 2, "1_gettingstarted", "glyphicon glyphicon-user", [], '4_firstapp'),
         new MenuItem('Project Structure', 2, "1_gettingstarted", "glyphicon glyphicon-fullscreen", [], '5_projectstructure'),
         new MenuItem('Version History', 2, "1_gettingstarted", "glyphicon glyphicon-send",[],  '6_versionhistory'),
-      ],  '1_gettingstarted')
+      ],  '1_gettingstarted'),
+
+      new MenuItem('Data and Event Binding', 1, "3_dataandeventhandling", "glyphicon glyphicon-globe", [
+        new MenuItem('Property Binding', 2, "3_dataandeventhandling", "glyphicon glyphicon-tasks", [], '2_propertybinding'),
+        new MenuItem('Attribute Binding', 2, "3_dataandeventhandling", "glyphicon glyphicon-user", [], '3_attributebinding'),
+        new MenuItem('Adding Bootstrap', 2, "3_dataandeventhandling", "glyphicon glyphicon-fullscreen", [], '4_addingbootstrap'),
+        new MenuItem('Class Binding', 2, "3_dataandeventhandling", "glyphicon glyphicon-send",[],  '5_classbinding'),
+        new MenuItem('Style Binding', 2, "3_dataandeventhandling", "glyphicon glyphicon-tasks", [], '6_stylebinding'),
+        new MenuItem('Event Binding', 2, "3_dataandeventhandling", "glyphicon glyphicon-user", [], '7_eventbinding'),
+        new MenuItem('Event Filtering', 2, "3_dataandeventhandling", "glyphicon glyphicon-fullscreen", [], '8_eventfiltering'),
+        new MenuItem('Template Variables', 2, "3_dataandeventhandling", "glyphicon glyphicon-send",[],  '9_templatevariables'),
+        new MenuItem('Two-Way Binding', 2, "3_dataandeventhandling", "glyphicon glyphicon-tasks", [], '10_twowaybinding'),
+        new MenuItem('Pipes', 2, "3_dataandeventhandling", "glyphicon glyphicon-user", [], '11_pipes'),
+        new MenuItem('Custom Pipes', 2, "3_dataandeventhandling", "glyphicon glyphicon-fullscreen", [], '12_custompipes'),
+      ],  '1_introduction'),
+
+   
   ];
 
   // [

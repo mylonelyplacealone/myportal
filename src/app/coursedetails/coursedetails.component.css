@@ -36,3 +36,11 @@
 :host ::ng-deep .bgyellow{
     background-color: yellow;
 }
+
+:host ::ng-deep .code-panel{
+    background-color: black; 
+    color: white;
+}
+:host ::ng-deep .inner-content{
+    margin-top:-15px;
+}
