@@ -11,8 +11,7 @@
 <h3>String Interpolation</h3>
 <p>From the example below, Angular pulls the value of the fullName property from the component and inserts it between the opening and closing &lt;h1> element using curly braces used to denote interpolation.</p>
 
-<pre class="language-markup code-panel"><code class="language-markup">
-import { Component } from '@angular/core';
+<pre class="language-markup code-panel"><code class="language-markup">import { Component } from '@angular/core';
 
 @Component({
     selector: 'my-app',
@@ -22,14 +21,12 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
     fullName: string = 'String Interpolation Example';
-}
-</code></pre>
+}</code></pre>
 <p>Interpolation is all about data binding and flow a value in one direction. It’s all about moving data in one direction from our components to HTML elements.</p>
 <p>Interpolation is a special syntax that Angular converts into property binding. It’s a convenient alternative to property binding.</p>
 <p>When we need to concatenate strings we have to use interpolation instead property binding.</p>
 <p>Interpolation is used to show string data value . If we decide to use interpolation in below example, the button will always be disabled irrespective of isDisabled class property value is true of false.</p>
-<pre class="language-markup code-panel"><code class="language-markup">
-import { Component } from '@angular/core';
+<pre class="language-markup code-panel"><code class="language-markup">import { Component } from '@angular/core';
 
 @Component({
     selector: 'my-app',
@@ -40,6 +37,5 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
 isDisabled: boolean = true;
-}
-</code></pre>
+}</code></pre>
 </div>

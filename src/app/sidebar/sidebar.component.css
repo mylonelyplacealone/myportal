@@ -46,6 +46,10 @@
     border-top:1px lightblue solid !important;
 }
 
+.child-item li{
+    padding: 5px 8px !important;
+}
+
 .sidebar ul li{
     list-style: none;
     color:white;
