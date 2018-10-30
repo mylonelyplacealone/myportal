@@ -1,1 +1,52 @@
 <div class="inner-content"><h2>Template Variables</h2>
+
+<p>On this page we will provide Angular template reference variable example.
+A template reference variable is a reference to a DOM element or directive within a template. 
+Using template reference variable we access the values of DOM element properties. </p>
+<p>Template reference variable is declared using # and ref- as prefix, for example #myVar and ref-myVar.</p> 
+<p>We should not duplicate template reference variable name because in this way it may give unpredictable value. </p>
+<p>Here on this page we will provide example of template reference variable for input text box, select box and NgForm directive step by step using TypeScript.</p>
+
+<p><strong>Template Reference Variable Syntax</strong></p>
+
+<p>We can use template reference variable by two ways.</p>
+<pre class="language-markup code-panel"><code class="language-markup">1. Using # &lt;input type="text" #myVar>
+2. Using ref- &lt;input type="text" ref-myVar></code></pre> 
+
+<p><strong>Template Reference Variable using Input Text Box</strong></p>
+
+<p>Template reference variable is a variable using which we can access DOM properties. </p>
+<p>In our example we are using following DOM properties of input box.</p> 
+
+<p>1. placeholder </p>
+<p>2. type </p>
+<p>3. value </p>
+
+<pre class="language-markup code-panel"><code class="language-markup">&lt;input type="text" #mobile placeholder="Enter Mobile Number"></code></pre>
+
+<p>In the above input text box #mobile is a template reference variable. To fetch DOM properties, we do as follows. </p>
+<p><strong>mobile.placeholder</strong> : It will give placeholder of our text box if we have specified. </p>
+<p><strong>mobile.value</strong> : It will give value of our text box. </p>
+<p><strong>mobile.type</strong> : It will give type of input element. In our example type is text.</p>
+<br>
+<p><strong>Template Reference Variable using Select Box</strong></p>
+
+<pre class="language-markup code-panel"><code class="language-markup">&lt;select #myColor (change) = "setData(myColor.value)">
+&lt;/select>  </code></pre>
+
+<p>Look at the code snippet, #myColor is a template reference variable. </p>
+<p>The selected value of select box can be accessed by myColor.value.</p>
+<br>
+<p><strong>Template Reference Variable with NgForm</strong></p>
+
+<pre class="language-markup code-panel"><code class="language-markup">&lt;form (ngSubmit)="onSubmitPersonForm(myForm)" #myForm="ngForm">
+    &lt;input name="name" required [(ngModel)]="person.pname">
+    &lt;button type="submit" [disabled]="!myForm.form.valid">Submit&lt;/button>
+&lt;/form> </code></pre>
+
+<p><strong>ngSubmit</strong> : It enables binding angular expressions to onsubmit event of the form. Here on form submit onSubmitPersonForm component method will be called. </p>
+<p><strong>ngForm</strong> : It is the nestable alias of form directive </p>
+
+<p>Here we are using template reference variable for ngForm as #myForm="ngForm" . Now we can use myForm in place of ngForm such as to check form validity and we can also use it in our angular expressions.</p>
+</div>
+

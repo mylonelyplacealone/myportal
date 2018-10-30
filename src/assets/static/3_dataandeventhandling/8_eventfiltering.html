@@ -1,1 +1,57 @@
 <div class="inner-content"><h2>Event Filtering</h2>
+
+<p>Many times you want to detect a particular key press and perform some action when that key is pressed. Example, when capturing input from a user, you want to know when that input should be processed. Thus, there should be some sentinel value which should be considered as end of input from the user. Normally, enter key is considered to be the end of input. So, you need to know when is the enter key pressed. How would you do that in Angular? Read on !!!</p>
+ 
+<p>How to know enter key is pressed</p>
+
+<p>For determining which key was pressed in an input box, we need to bind some event to it. Since the requirement is related to key press, we can bind any event related to key such as keypress, keyup, keydown.
+Now, whenever an event occurs, an event object is generated which contains information about that event. This event object also has a keycode property whose value can tell us which key was pressed since each key has a unique code associated with it.
+Finally, the question arises, how will you determine whether enter key is pressed. Key code of enter key is 13, so by comparing the keycode from event object, we can easily know that enter key is pressed.</p>
+
+<p>Let’s move ahead to achieve it in angular. HTML template containing an input box will be</p>
+<pre class="language-markup code-panel"><code class="language-markup">&lt;html>
+    &lt;body>
+        &lt;input (keyup) = handleEvent($event) />
+    &lt;/body>
+&lt;/html></code></pre>
+
+<p>The template has an input box which has a keyup event bound to it. Note that $event object is passed to its event handler function so that pressed key code can be retrieved.</p>
+
+<p>Now, the component class which determines whether enter key is pressed is written as</p>
+
+<pre class="language-markup code-panel"><code class="language-markup">export class EnterKeyPressComponent {
+      
+    private handleEvent(event): void {
+            // compare key code with code of enter key
+            if(event.keyCode === 13) {
+                console.log(‘Enter key pressed’)
+            }
+    }
+}</code></pre>
+
+<p>Since we are deciding our course of action based on a condition using an event or in other words, we are filtering the event. Thus the above mechanism is also termed as Event Filtering.</p>
+
+<p><strong>Event Filtering : Advanced Approach</strong></p>
+
+<p>Though the above method will surely work but it is not optimal. This approach will call the event handler function every time when a key is pressed and will compare the code of every key with enter key code. This is a traditional approach which was used earlier also.
+Angular provides a more advanced method of Event Filtering in which the event handler method will only be called when enter is pressed. Let’s see how.</p>
+
+<p>Modified HTML template will look as</p>
+
+<pre class="language-markup code-panel"><code class="language-markup">&lt;html>
+    &lt;body>
+        &lt;input (keyup.enter) = handleEvent() />
+    &lt;/body>
+&lt;/html></code></pre>
+
+<p>Event handler function will only be called when enter key is pressed. Note that there is no need to pass $event object to the handler function.</p>
+<p>Modified component class will look as</p>
+
+<pre class="language-markup code-panel"><code class="language-markup">export class EnterKeyPressComponent {
+    
+    private handleEvent(): void {
+            console.log(‘Enter key pressed’)
+    }
+}</code></pre>
+<p>Note that no event object is passed to the handler function and there is no need to check the key code since this method will only be called when enter is pressed.</p>
+

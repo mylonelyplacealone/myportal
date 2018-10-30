@@ -1,1 +1,74 @@
 <div class="inner-content"><h2>Two-Way Binding</h2>
+    
+<p><strong>Two-Way Data Binding With ngModel</strong></p>
+<p>Angular provides us with a directive ngModel to achieve two-way data binding. It is very simple and straightforward to use ngModel directive, as shown in the listing below:</p>
+    
+<pre class="language-markup code-panel"><code class="language-markup">import {Component} from '@angular/core';
+@Component({
+    selector:'my-app',
+    template:`
+    &lt;div class="container">
+        &lt;input [(ngModel)]='name' />
+        &lt;br/>
+        &lt;h1>Hello {{name}}&lt;/h1>
+    &lt;/div>
+    `
+})
+export class AppComponent{
+}</code></pre>
+
+<p>To use ngModel directive, we need to import FormsModule in the application:</p>
+
+<pre class="language-markup code-panel"><code class="language-markup">import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { FormsModule }   from '@angular/forms';
+import { AppComponent }  from './app.component';
+
+@NgModule({
+    imports:      [ BrowserModule,<font color="yellow"> FormsModule</font>],
+    declarations: [ AppComponent],
+    bootstrap:    [ AppComponent ]
+})
+export class AppModule { }</code></pre>
+
+<p>In above demo, when typing into the input element, the input’s value will be assigned to a name variable and displayed back to the view. We have implemented two-way data binding using ngModel.</p>
+
+<p><strong>Two-Way Data Binding Without ngModel</strong></p>
+
+<p>To understand ngModel directive working, let's see how we can achieve two-way data binding without using ngModel directive. To do that, we need to use:</p>
+
+<p>Property binding to bind the expression to the value property of the input element. In this demo, we are binding name variable expression to value property.</p> 
+<p>Event binding to emit an input event on the input element. Yes, there is an input event that will be fired whenever the user inputs the input element. Using event binding, the input event would be bound to an expression.</p>
+<p>Using property binding and the event binding, two-way data binding can be achieved as shown in the listing below:</p>
+
+<pre class="language-markup code-panel"><code class="language-markup">import {Component} from '@angular/core';
+@Component({
+    selector:'my-app',
+    template:`
+    &lt;div class="container">
+        &lt;input [value]="name" (input)="name=$event.target.value" />
+        &lt;br/>
+        &lt;h1>Hello {{name}}&lt;/h1>
+    &lt;/div>
+    `
+})
+export class AppComponent{
+        name : string = "";
+    }</code></pre>
+
+<p>Like the ngModel directive demo in this demo, when typing into the input element, the input element’s value will be assigned to name variable and displayed back to the view. We have implemented two-way data binding without using ngModel.</p>
+
+<p>Let's understand a few important things here:</p>
+
+<p><strong>[value]=“name”</strong> is the property binding. We are binding the value property of the input element with the variable (or expression) name.</p>
+<p><strong>(input)=“expression”</strong> is the event binding. Whenever the input event is fired, the expression will be executed.</p>
+<p><strong>“name=$event.target.value”</strong> is an expression that assigns the entered value to the name variable.</p>
+<p>The name variable can be accessed inside the AppComponent class.</p>
+<p>So far, we have seen two-way data binding with ngModel and without ngModel.</p>
+<p>We can conclude that the directive ngModel is nothing but a combination of property binding and event binding.</p> 
+<p>Event binding is denoted using small brackets and property binding is denoted using square [] brackets.</p> 
+<p>If you notice, the syntax of ngModel is [(ngModel)].</p>
+<p>It suggests it is a combination of both event and property binding.</p>
+</div>
+
+
