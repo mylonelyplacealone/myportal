@@ -28,7 +28,7 @@ export class AppDataService{
         new MenuItem('Two-Way Binding', 2, "3_dataandeventhandling", "glyphicon glyphicon-tasks", [], '10_twowaybinding'),
         new MenuItem('Pipes', 2, "3_dataandeventhandling", "glyphicon glyphicon-user", [], '11_pipes'),
         new MenuItem('Custom Pipes', 2, "3_dataandeventhandling", "glyphicon glyphicon-fullscreen", [], '12_custompipes'),
-      ],  '1_introduction'),
+      ],  '1_introduction'), 
 
    
   ];
