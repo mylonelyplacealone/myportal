@@ -29,7 +29,13 @@ export class AppDataService{
         new MenuItem('Pipes', 2, "3_dataandeventhandling", "glyphicon glyphicon-user", [], '11_pipes'),
       ],  '1_introduction'), 
 
-   
+      new MenuItem('Reusable Components', 1, "4_reusablecomponents", "glyphicon glyphicon-globe", [
+        new MenuItem('Input Property', 2, "4_reusablecomponents", "glyphicon glyphicon-tag", [], '2_inputproperty'),
+        new MenuItem('Output Property', 2, "4_reusablecomponents", "glyphicon glyphicon-tasks", [], '3_outputproperty'),
+        new MenuItem('View Encapsulation', 2, "4_reusablecomponents", "glyphicon glyphicon-user", [], '4_viewencapsulation'),
+        new MenuItem('ng Content', 2, "4_reusablecomponents", "glyphicon glyphicon-fullscreen", [], '5_ngcontent'),
+        new MenuItem('ng Container', 2, "4_reusablecomponents", "glyphicon glyphicon-send",[],  '6_ngcontainer'),
+      ],  '1_introduction'),
   ];
 
   // [

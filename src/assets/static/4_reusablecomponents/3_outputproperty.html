@@ -1,0 +1,179 @@
+<div class="inner-content"><h2>Output Property</h2>
+
+<p>Much like in the previous tutorial where we setup an @Input decorator to accept an input binding, we can do the same and listen in the parent for when a value changes inside our child component.</p>
+
+<p>To do this, we’ll head back to our parent component that’s rendering out our &lt;counter>:</p>
+
+<pre class="language-markup code-panel"><code class="language-markup">import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-root',
+  template: `
+    &lt;div class="app">
+      <font color="yellow">Parent: {{ myCount }}</font>
+      &lt;counter
+      <font color="yellow">[count]="myCount"
+        (change)="countChange($event)"</font>>
+      &lt;/counter>
+    &lt;/div>
+  `
+})
+export class AppComponent {
+  myCount: number = 10;
+  countChange(event) {
+  }
+}</code></pre>
+
+<p>We’ve made a few additions here:</p>
+<ul>
+  <li><P>Changed initialCount to myCount, we are no longer setting an “initialCount”, therefore the count state will be managed in the parent once the child component makes a change to it</P></li>
+  <li><p>Created a custom change property to the &lt;counter> template, using () event binding syntax, like we learned when we created our first component this signifies some kind of event (such as a click when used on a native element Node).</p>  </li>
+  <li><p>Logged the myCount property in the parent</p></li>
+  <li><p>Added a countChange() {} method to the class, and passed it into the (change) event listener</p></li>
+</ul>
+
+<p>This sets up our finalised uni-directional dataflow. The data flows down from the AppComponent class, into the &lt;counter>, the counter can then change the values - and once the value has changed we expect countChange() to be called. We now need to wire this up.</p>
+
+<p><strong>@Output decorator</strong></p>
+<p>Much like using Input, we can import Output and decorate a new change property inside our CounterComponent:</p>
+
+<pre class="language-markup code-panel"><code class="language-markup">import { Component, Input, <font color="yellow">Output </font>} from '@angular/core';
+
+@Component({...})
+export class CounterComponent {
+
+  @Input() count: number = 0;
+
+  <font color="yellow">@Output()</font> change;
+
+  // ...
+}</code></pre>
+
+<p>This will configure the metadata necessary to tell Angular this property is to be treated as an output binding. However, it needs to sit alongside something called the EventEmitter.</p>
+
+<p><strong>EventEmitter</strong></p>
+<p>This is the interesting part. To be able to use our Output, we need to import and bind a new instance of the EventEmitter to it:</p>
+
+<pre class="language-markup code-panel"><code class="language-markup">import { Component, Input, Output, <font color="yellow">EventEmitter</font> } from '@angular/core';
+
+@Component({...})
+export class CounterComponent {
+  // ...
+
+  @Output() change<font color="yellow"> = new EventEmitter()</font>;
+
+  // ...
+}</code></pre>
+
+<p>Using TypeScript to the fullest we’d do something like this to signify the type of event value we are emitting, and our change output is of type EventEmitter. In our case we are emitting a number type:</p>
+
+<pre class="language-markup code-panel"><code class="language-markup">import { Component, Input, Output, EventEmitter } from '@angular/core';
+
+@Component({...})
+export class CounterComponent {
+  // ...
+
+  @Output()
+  change: <font color="yellow">EventEmitter&lt;number></font> = new EventEmitter&lt;<font color="yellow">number</font>>();
+
+  // ...
+}</code></pre>
+
+<p><strong>Invoking the EventEmitter instance</strong></p>
+<p>So what’s happening here? We’ve created a change property, and bound a new instance of EventEmitter to it - what next?</p>
+
+<p>We can simply call our this.change method - however because it references an instance of EventEmitter, we have to call .emit() to emit an event to the parent:</p>
+
+<pre class="language-markup code-panel"><code class="language-markup">@Component({...})
+export class CounterComponent {
+
+  @Input() count: number = 0;
+
+  @Output() change: EventEmitter&lt;number> = new EventEmitter&lt;number>();
+
+  increment() {
+    this.count++;
+    <font color="yellow">this.change.emit(this.count);</font>
+  }
+
+  decrement() {
+    this.count--;
+    <font color="yellow">this.change.emit(this.count);</font>
+  }
+}</code></pre>
+
+<p>This will then emit a change to our (change) listener we setup in the parent, to which our countChange($event) callback will be invoked, and the data associated with the event will be given to us via the $event property.</p>
+
+<p><strong>Stateful callback assignment</strong></p>
+<p>Here’s what we’ll need to do, re-assign this.myCount with the event that’s passed back. I’ll explain why below:</p>
+
+<pre class="language-markup code-panel"><code class="language-markup">import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-root',
+  template: `
+    &lt;div class="app">
+      Parent: {{ myCount }}
+      &lt;counter
+        [count]="myCount"
+        (change)="countChange($event)">
+      &lt;/counter>
+    &lt;/div>
+  `
+})
+export class AppComponent {
+  myCount: number = 10;
+  countChange(event) {
+    <font color="yellow">this.myCount = event;</font>
+  }
+}</code></pre>
+
+<p>Why do we do this? This creates a pure uni-directional dataflow. The data comes from AppComponent, flows into &lt;counter>, the counter makes a change, and emits that change back to the parent on our command - via the EventEmitter we setup. Once we’ve got that data back up, we merge those changes back into our parent (stateful) component.</p>
+
+<p>The reason we’re doing this is to demonstrate that Parent: {{ myCount }} updates at the same time our Output informs the parent.</p>
+
+<p><strong>Custom Property Names/Aliasing Property Names</strong></p>
+<p>Much like we learned with @Input() and creating custom property names, we can also do the same with @Output().</p>
+
+<p>Let’s assume that we change the (change) binding to (update):</p>
+
+<pre class="language-markup code-panel"><code class="language-markup">@Component({
+  selector: 'app-root',
+  template: `
+    &lt;div class="app">
+      Parent: {{ myCount }}
+      &lt;counter
+        [count]="myCount"
+        (<font color="yellow">update</font>)="countChange($event)">
+      &lt;/counter>
+    &lt;/div>
+  `
+})
+export class AppComponent {
+  myCount: number = 10;
+  countChange(event) {
+    this.myCount = event;
+  }
+}</code></pre>
+
+<p>We can hook up our custom property name, whilst preserving the internal @Output property name:</p>
+
+<pre class="language-markup code-panel"><code class="language-markup">@Component({...})
+export class CounterComponent {
+  // ...
+
+  @Output(<font color="yellow">'update'</font>) change: EventEmitter&lt;number> = new EventEmitter&lt;number>();
+
+  increment() {
+    this.count++;
+    this.change.emit(this.count);
+  }
+
+  decrement() {
+    this.count--;
+    this.change.emit(this.count);
+  }
+}</code></pre>
+
+<p>Essentially, we’re just telling Angular here to lookup update as the property to be bound to, and we can continue using this.change internally.</p>
+</div>
