@@ -15,11 +15,12 @@ import { UsersComponent } from './users/users.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CodeComponent } from './code/code.component';
-import { ExampleComponent } from './example/example.component';
 import { LoaderComponent } from './auth/loader/loader.component';
 import { LoaderInterceptorService } from './auth/loader/loader.intercepter';
 import { safe } from './code/safehtml.pipe';
 import { CoursedetailsComponent } from './coursedetails/coursedetails.component';
+import { ContactusComponent } from './contactus/contactus.component';
+import { AboutComponent } from './about/about.component';
 
 @NgModule({
   declarations: [
@@ -31,10 +32,11 @@ import { CoursedetailsComponent } from './coursedetails/coursedetails.component'
     UsersComponent,
     SidebarComponent,
     CodeComponent,
-    ExampleComponent,
     LoaderComponent,
     safe,
-    CoursedetailsComponent
+    CoursedetailsComponent,
+    ContactusComponent,
+    AboutComponent
   ],
   imports: [
     BrowserModule,
