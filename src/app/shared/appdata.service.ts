@@ -16,6 +16,12 @@ export class AppDataService{
         new MenuItem('Version History', 2, "1_gettingstarted", "glyphicon glyphicon-send",[],  '6_versionhistory'),
       ],  '1_gettingstarted'),
 
+      new MenuItem('Angular Fundamentals', 1, "2_fundamentals", "glyphicon glyphicon-globe", [
+        new MenuItem('Components', 2, "2_fundamentals", "glyphicon glyphicon-tag", [], '2_components'),
+        new MenuItem('Directives', 2, "2_fundamentals", "glyphicon glyphicon-tasks", [], '3_directives'),
+        new MenuItem('Services', 2, "2_fundamentals", "glyphicon glyphicon-user", [], '4_services'),
+      ],  '1_fundamentals'),
+
       new MenuItem('Data and Event Binding', 1, "3_dataandeventhandling", "glyphicon glyphicon-globe", [
         new MenuItem('Property Binding', 2, "3_dataandeventhandling", "glyphicon glyphicon-tasks", [], '2_propertybinding'),
         new MenuItem('Attribute Binding', 2, "3_dataandeventhandling", "glyphicon glyphicon-user", [], '3_attributebinding'),

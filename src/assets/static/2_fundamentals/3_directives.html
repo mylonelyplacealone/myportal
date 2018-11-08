@@ -1,0 +1,98 @@
+<div class="inner-content"><h2>Directives</h2>
+<p>A directive is a custom HTML element that is used to extend the power of HTML. Angular has the following directives that get called as part of the BrowserModule module.</p>
+<ul>
+    <li>ngIf</li>
+    <li>ngFor</li>
+</ul>
+
+<p>If you view the app.module.ts file, you will see the following code and the BrowserModule module defined. By defining this module, you will have access to the 2 directives.</p>
+
+<pre class="language-markup code-panel"><code class="language-markup">import { NgModule }      from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { AppComponent }  from './app.component';
+
+@NgModule ({
+   imports:      [ <font color="yellow">BrowserModule</font> ],
+   declarations: [ AppComponent ],
+   bootstrap:    [ AppComponent ]
+})
+export class AppModule { }</code></pre>
+
+<p>Now let’s look at each directive in detail.</p>
+
+<p><strong>ngIf</strong></p>
+<p>The ngif element is used to add elements to the HTML code if it evaluates to true, else it will not add the elements to the HTML code.</p>
+
+<p><em>Syntax:</em> *ngIf = 'expression'</p>
+
+<p>If the expression evaluates to true then the corresponding gets added, else the elements are not added.</p>
+
+<p>Let’s now take a look at an example of how we can use the *ngIf directive.</p>
+
+<p>Step 1 − First add a property to the class named appStatus. This will be of type Boolean. Let’s keep this value as true.</p>
+
+<pre class="language-markup code-panel"><code class="language-markup">import { Component } from '@angular/core';  
+
+@Component ({
+   selector: 'my-app',
+   templateUrl: 'app/app.component.html'
+})
+
+export class AppComponent {
+   appTitle: string = 'Welcome';
+   <font color="yellow">appStatus: boolean = true;</font>
+}</code></pre>
+
+<p>Step 2 − Now in the app.component.html file, add the following code.</p>
+
+<pre class="language-markup code-panel"><code class="language-markup">&lt;div *ngIf = 'appStatus'>{{appTitle}} MyDeckPortal &lt;/div></code></pre>
+
+<p>In the above code, we now have the *ngIf directive. In the directive we are evaluating the value of the appStatus property. Since the value of the property should evaluate to true, it means the div tag should be displayed in the browser.</p>
+
+<p>Once we add the above code, we will get the following output in the browser.</p>
+
+<p><em>Output:</em> Welcome MyDeckPortal</p>
+
+<p><strong>ngFor</strong></p>
+<p>The ngFor element is used to add elements based on the condition of the For loop.</p>
+
+<p><em>Syntax: </em>*ngFor = 'let variable of variablelist'</p>
+
+<p>The variable is a temporary variable to display the values in the variablelist.</p>
+
+<p>Let’s now take a look at an example of how we can use the *ngFor directive.</p>
+
+<p>Step 1 − First add a property to the class named appList. This will be of the type which can be used to define any type of arrays.</p>
+
+<pre class="language-markup code-panel"><code class="language-markup">import { Component } from '@angular/core';
+ 
+@Component ({
+   selector: 'my-app',
+   templateUrl: 'app/app.component.html'
+})
+
+export class AppComponent {
+   appTitle: string = 'Welcome';
+   <font color="yellow">appList: any[] = [ "One", "Two", "Three" ];</font>
+}</code></pre>
+
+<p>Hence, we are defining the appList as an array which has 3 elements.</p>
+
+<p>Step 2 − In the app.component.html, define the following code.</p>
+
+<pre class="language-markup code-panel"><code class="language-markup">&lt;ul> 
+    &lt;li <font color="yellow">*ngFor = 'let lst of appList'</font>>{{lst}}&lt;/li> 
+&lt;/ul></code></pre>
+
+<p>In the above code, we are now using the ngFor directive to iterate through the appList array. We then define a list where each list item is the element from the array.</p>
+
+<p>Once we add the above code, we will get the following output in the browser.</p>
+
+<p><em>Output:</em>
+
+<ul> 
+    <li>One</li> 
+    <li>Two</li> 
+    <li>Three</li> 
+</ul> 
+</div>
