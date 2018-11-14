@@ -42,6 +42,11 @@ export class AppDataService{
         new MenuItem('ng Content', 2, "4_reusablecomponents", "glyphicon glyphicon-fullscreen", [], '5_ngcontent'),
         new MenuItem('ng Container', 2, "4_reusablecomponents", "glyphicon glyphicon-send",[],  '6_ngcontainer'),
       ],  '1_introduction'),
+
+      new MenuItem('Forms', 1, "5_forms", "glyphicon glyphicon-globe", [
+        new MenuItem('Template Driven Forms', 2, "5_forms", "glyphicon glyphicon-tag", [], '2_templatedrivenforms'),
+        new MenuItem('Reactive Forms', 2, "5_forms", "glyphicon glyphicon-tasks", [], '3_reactiveforms'),
+      ],  '1_introduction'),
   ];
 
   // [
