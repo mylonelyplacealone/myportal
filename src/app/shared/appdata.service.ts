@@ -47,6 +47,11 @@ export class AppDataService{
         new MenuItem('Template Driven Forms', 2, "5_forms", "glyphicon glyphicon-tag", [], '2_templatedrivenforms'),
         new MenuItem('Reactive Forms', 2, "5_forms", "glyphicon glyphicon-tasks", [], '3_reactiveforms'),
       ],  '1_introduction'),
+
+      new MenuItem('Routing', 1, "7_routing", "glyphicon glyphicon-globe", [
+        new MenuItem('Configuring Routes', 2, "7_routing", "glyphicon glyphicon-tag", [], '2_configuringroutes'),
+        new MenuItem('Route & Query Parameters', 2, "7_routing", "glyphicon glyphicon-tasks", [], '3_routeandqueryparameters'),
+      ],  '1_introduction'),
   ];
 
   // [
