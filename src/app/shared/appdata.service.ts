@@ -56,6 +56,8 @@ export class AppDataService{
         new MenuItem('Configuring Routes', 2, "7_routing", "glyphicon glyphicon-tag", [], '2_configuringroutes'),
         new MenuItem('Route & Query Parameters', 2, "7_routing", "glyphicon glyphicon-tasks", [], '3_routeandqueryparameters'),
       ],  '1_introduction'),
+
+      new MenuItem('Animations', 1, "8_animations", "glyphicon glyphicon-globe", [],  '1_animations'),
   ];
 
   // [
