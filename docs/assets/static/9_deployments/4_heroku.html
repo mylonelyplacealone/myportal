@@ -1,0 +1,114 @@
+<div class="inner-content"><h2>Deploying Angular Apps with Heroku with Auto update feature</h2>
+
+<p>It has always ‘seemed’ easy until you try it. Having deployed other apps to heroku, we will encountered series of challenges deploying Angular app.</p>
+
+<p>This article will show you guides on deploying your Angular apps easily to Heroku, more importantly, avoiding common pitfalls and will cover"</p>
+<ul>
+    <li>Setting automatic deployment from GitHub to Heroku</li>
+    <li>Deploying Angular app on Heroku server</li>
+    <li>Setting up Your Angular Application</li>
+</ul>
+
+<p><strong>Create GitHub repo and Push</strong></p>
+<p>Here, we will be creating a fresh github repository and pushing our app to it.</p>
+
+<p>Login to github and create new repository, no need to initialize repository with README.</p>
+<p>Open new tab in your terminal or hit Ctrl+C to stop running app. Then run the following commands:</p>
+<pre class="language-markup code-panel"><code class="language-markup">git remote add origin &lt;new_github_repository_url>
+git add .
+git commit -m "initial commit"
+git push -u origin master</code></pre>
+
+<p>With this your application code will be copied to newly created github repository.</p>
+
+<p><strong>Setup Automatic Deployment from GitHub to Heroku</strong></p>
+<p>Advantage of this step is so that, once you push a change to your github repository, it automatically pushes the change to your codebase on heroku, which then takes effect live on the web. This means, you’ll only have to push your changes to github and its done.</p>
+
+<p>If you dont have a heroku account yet, create one on heroku website. Its free. Login to your dashboard and create a new app.</p>
+<ul>
+    <li>Click Create app</li>
+    <li>In the Deploy menu, under Deployment method, select GitHub. If you have not done this already, it will ask you to login your github account so it can connect to it.</li>
+    <li>Enter the name of the GitHub repository and click Search. Once the repo is shown below, click Connect. </li>
+    <li>Under Automatic Deploys, select the master branch and click Enable Automatic Deploys.</li>
+    <li>Under Manual Deploys, click Deploy Branch. This is to push our fresh code to heroku.</li>
+</ul>
+
+<p>Now we are done with this stage really. It might take a little while but will show you successfully deployed message once done.</p>
+
+<p>If you click View, a new tab will be opened but your app will not display. Next series of steps will guide you on configuring and spinning up your angular app.</p>
+
+<p><strong>Configure Your Angular App to Deploy Properly on Heroku</strong></p>
+<p>The following are production-ready steps to easily and properly deploy your app without hitches.</p>
+
+<p>Ensure you have the latest version of angular cli and angular compiler cli.</p>
+<p>Install them into your application by running this commands in your terminal:</p>
+
+<pre class="language-markup code-panel"><code class="language-markup">npm install @angular/cli@latest @angular/compiler-cli --save-dev</code></pre>
+
+<li><strong>package.json updates</strong></li>
+<p> - In your package.json, copy below from devDependencies to dependencies</p>
+
+<pre class="language-markup"><code class="language-markup">"@angular/cli”: “&lt;version info>”,
+"@angular/compiler-cli": "^&lt;version info>",</code></pre>
+
+<p> - Create postinstall script in package.json</p>
+<p>Under “scripts”, add a postinstall command like below:</p>
+
+<pre class="language-markup"><code class="language-markup">"heroku-postbuild": "ng build --aot -prod"</code></pre>
+
+<p>This tells Heroku to build the application using Ahead Of Time (AOT) compiler and make it production-ready. This will create a dist folder where all html and javascript converted version of our app will be launched from.</p>
+
+<p> - Add Node and NPM engines</p>
+<p>You will need to add the Node and NPM engines that Heroku will use to run your application. Preferably, it should be same version you have on your machine. So, run node -v and npm -v to get the correct version and include it in your package.json file like so:</p>
+
+<pre class="language-markup"><code class="language-markup">"engines": {
+    "node": "&lt;version info>",
+    "npm": "&lt;version info>"
+}</code></pre>
+
+<p> - Copy typescript to dependencies.</p>
+<p>Copy "typescript": "~&lt;version info>" from devDependencies to dependencies to also inform Heroku what typescript version to use.</p>
+
+<p> - Install Enhanced Resolve 3.3.0 with below command</p>
+<pre class="language-markup"><code class="language-markup">npm install enhanced-resolve@3.3.0 --save-dev</code></pre>
+
+<p> - Install NodeJS Express Server to run your app</p>
+<p>Locally we run ng serve from terminal to run our app on local browser. But we will need to setup an Express server that will run our production ready app (from dist folder created) only to ensure light-weight and fast loading.</p>
+<p>Install Express server by running:</p>
+<pre class="language-markup"><code class="language-markup">npm install express path --save</code></pre>
+
+<p>Create a server.js file in the root of the application and paste the following code.</p>
+
+<pre class="language-markup code-panel"><code class="language-markup">//Install express server
+const express = require('express');
+const path = require('path');
+
+const app = express();
+
+// Serve only the static files form the dist directory
+app.use(express.static(__dirname + '/dist/&lt;name-of-app>'));
+
+app.get('/*', function(req,res) {
+    
+res.sendFile(path.join(__dirname+'/dist/&lt;name-of-app>/index.html'));
+});
+
+// Start the app by listening on the default Heroku port
+app.listen(process.env.PORT || 8080);</code></pre>
+
+<p> - Change start command</p>
+<p>In package.json, change the “start” command to node server.js so it becomes:</p>
+
+<pre class="language-markup"><code class="language-markup">"start": "node server.js"</code></pre>
+
+<p><strong>Push changes to GitHub:</strong></p>
+
+<pre class="language-markup code-panel"><code class="language-markup">git add .
+git commit -m "updates to deploy to heroku"
+git push</code></pre>
+
+<p>At this point, your application on Heroku will automatically take the changes from GitHub and update itself.</p>
+<p>Also, it’ll look into your package.json and install packages.</p>
+<p>It will run the postinstall and then, node server.js to spin up your application.</p>
+<p>You can check Activity tab and open Build log to see how it actually runs.</p>
+</div>

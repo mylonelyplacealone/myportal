@@ -1,0 +1,71 @@
+<div class="inner-content"><h2>HTTP Interceptors</h2>
+
+<p>One of the new features of the new HttpClient module is the availability of interceptors. Interceptors are sitting in between your application and the backend. By using interceptors you can transform a request coming from the application before it is actually submitted to the backend. The same is possible for responses. If a response arrivers from the backend a interceptor can transform that response before it arrives in your application. </p>
+    
+<p>Best way to discover how interceptors work is to implement a simple example. Create a new file githubauth.interceptor.ts and insert the following code:
+
+<pre class="language-markup code-panel"><code class="language-markup">import { Injectable } from '@angular/core';
+import { HttpEvent, HttpInterceptor, HttpHandler, HttpRequest } from '@angular/common/http';
+import { Observable } from 'rxjs/observable';
+@Injectable()
+export class GithubAuthInterceptor implements HttpInterceptor {
+    intercept (req: HttpRequest&lt;any>, next: HttpHandler): Observable&lt;HttpEvent<any>> {
+    return next.handle(req);
+    }
+}</code></pre>
+
+<p>The interceptor class GithubAuthInterceptor implements the interface HttpInterceptor which is part of the @angular/common/http library. Implementing this interface requires us to add the intercept method to the class. This method is doing the main work of the interceptor. The method is expecting to get two parameters. The first parameter is containing the original request. The second parameter is the next HTTP handler to which the request needs to be passed on for further processing. </p>
+
+<p>In this first example the intercepts method is just passing on the original request to the next handler. Having understood the interceptor approach we can now move on and manipulate the request in the intercept method:</p>
+
+<pre class="language-markup code-panel"><code class="language-markup">import { Injectable } from '@angular/core';
+import { HttpEvent, HttpInterceptor, HttpHandler, HttpRequest } from '@angular/common/http';
+import { Observable } from 'rxjs/observable';
+@Injectable()
+export class GithubAuthInterceptor implements HttpInterceptor {
+    intercept (req: HttpRequest&lt;any>, next: HttpHandler): Observable&lt;HttpEvent<any>> {
+    const authReq = req.clone({
+        headers: req.headers.set('Authorization', 'token &lt;your GitHub token>')
+    });
+    return next.handle(authReq);
+    }
+}</code></pre>
+
+<p>First we’re creating a new request by using the clone method. At the same time we’re passing in an JSON object containing the headers property. We’re using the req.headers.set method to create a new header entry for the Authorization property. This property is used to submit the GitHub access token. </p>
+    
+<p>Finally the newly created request object (with the header included) is passed on for further processing by using the next.handle method.</p>
+
+<p><strong>Providing The Interceptor</strong></p>
+
+<p>In order to activate the interceptor for our application we need to provide it to the main application module AppModule in file app.module.ts:</p>
+
+<pre class="language-markup code-panel"><code class="language-markup">import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
+import { HttpClientModule } from '@angular/common/http';
+import { <font color="yellow">HTTP_INTERCEPTORS</font> } from '@angular/common/http';
+import { AppComponent } from './app.component';
+import { GithubAuthInterceptor } from './githubauth.interceptor';
+@NgModule({
+    declarations: [
+    AppComponent
+    ],
+    imports: [
+    BrowserModule,
+    HttpClientModule
+    ],
+    providers: [<font color="yellow">{
+    provide: HTTP_INTERCEPTORS,
+    useClass: GithubAuthInterceptor,
+    multi: true
+    }</font>],
+    bootstrap: [AppComponent]
+})
+export class AppModule { }</code></pre>
+
+<p>First we are importing GithubAuthInterceptor and in the second step we’re inserting a new object to the array which is assigned to the providers property of @NgModule. This object is containing three properties:</p>
+
+<p><strong>provide</strong>: needs to be set to HTTP_INTERCEPTORS in order to specify that a HTTP interceptor is provided</p>
+<p><strong>useClass</strong>: needs to be set to our interceptor class type</p>
+<p><strong>multi</strong>: needs to be set to multi to tell Angular that HTTP_INTERCEPTORS is an array of values, rather than a single value</p>
+<p>Now the Interceptor is active and the Authorization header is added to every request which is sent out automatically.</p>
+</div>

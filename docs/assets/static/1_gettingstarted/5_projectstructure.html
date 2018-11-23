@@ -1,0 +1,47 @@
+<div class="inner-content"><h2>Project Structure</h2>
+   <p>We will go through important files only as part of this tutorials.</p>
+   <p>When you open your newly created poject in your IDE it will look like below:</p>
+   <pre class="language-markup code-panel">
+    <code class="language-markup">[ProjectName]
+    &gt; e2e
+    &gt; node_modules
+    &gt; src
+        &gt; app
+        &gt; assets
+        &gt; environments
+        &gt; index.html
+        &gt; mail.ts
+        &gt; polyfills.ts
+        ...a bunch of files
+    package.json
+    tsconfig.json
+    tslint.json
+    ...a bunch of files</code></pre>
+
+    <p><strong>e2e: </strong>This is required and used to create end to end automated tests.</p>
+    
+    <p><strong>node_modules: </strong>All third party libraries that we import to our application or our application have dependency will be available in this folder. This will be used during the build to create the bundles.</p>
+    
+    <p><strong>src: </strong>This is the folder where we will have actual source code of our application.</p>
+    
+    <p><strong>app: </strong>This is the folder we will be working most of the time during our development of the applications. App folder will have at least pne module file and one component files. We will look into these files in more details in following topics.</p>
+    
+    <p><strong>assets: </strong>This folder is used to save any static assets you have like image files, icons, etc. And the assets inside this folder will be available across the application.</p>
+    
+    <p><strong>environments: </strong>Configuration settings for different environments will be stored inside this folder.
+        environment.prod.ts file will be referred in production mode and environment.ts file will be used for development mode.</p>
+    
+    <p><strong>index.html: </strong>This is the only page which is served for any angular application.</p>
+    
+    <p><strong>main.js: </strong>This is starting point of our application. This is used to provide the configuration for bootstrapping our application.</p>
+    
+    <p><strong>pollyfills.js: </strong>Angular uses the javascript features which are not available in the latest javascript versions supported by browsers. 
+        This file fills this gaps and provides all the javascript features angular needs so that angular app runs without any issues in all browsers.</p>
+    
+    <p><strong>package.json: </strong>In this file all our application dependencies of the libraries with respective versions will be listed out. 
+        devDepenencies needs during application development only and not required to run the application in production.</p>
+    
+    <p><strong>tsconfig.ts: </strong>This contains settings for TypeScript compiler.</p>
+    
+    <p><strong>tslint.json: </strong>This is Static analysis tool for TypeScript code same as Sonar Quebe you use for Java or .NET code to check code for readability, maintainability and functionality errors.</p>
+</div>

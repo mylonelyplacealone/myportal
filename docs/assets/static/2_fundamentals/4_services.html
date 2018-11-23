@@ -1,0 +1,102 @@
+<div class="inner-content"><h2>Services & Dependency Injection</h2>
+
+<p>An Angular service is simply a javascript function, along with its associated properties and methods, that can be included (via dependency injection) into Angular components. They allow you to develop code for specific tasks that can be used in those components.</p>
+    
+<p>There are 2 ways to create an Angular 2 service; the manual method, and then through the Angular CLI (Command Line Interface). The Angular CLI method of course is easy, so we will cover that after showing you how to build one from scratch. </p>
+
+<p><em>Step 1:</em> Create the Service File</p>
+
+<p>In your code editor, create a file consistent with the following naming convention:</p>
+
+<p><em>[Name of Service]</em>.service.ts</p>
+<p>You can place this file in the app folder, or in its own folder off of the app folder.</p>
+
+<p><em>Step 2:</em> Import the Injectable Member</p>
+
+<p>At the top of your new services file, add:</p>
+
+<pre class="language-markup code-panel"><code class="language-markup">import { Injectable } from '@angular/core';</code></pre>
+
+<p><em>Step 3:</em> Add the Injectable Decorator</p>
+
+<p>In step 2 above, we imported the Injectable member from the Angular Core library. Now we need to add the Injectable() decorator:</p>
+
+<p>@Injectable()</p>
+<p><em>Note:</em> As with all other Angular decorators, we preceed the name with an @ symbol, and we do not add a semi-colon ; at the end.</p>
+
+<p><em>Step 4:</em> Export the Services Class</p>
+
+<p>And finally, we create the class that contains the logic of our service:</p>
+
+<pre class="language-markup code-panel"><code class="language-markup">export class ExampleService {
+    // This is where your methods and properties go, for example: 
+
+    someMethod() {
+        return 'Text From Angular Service!';
+    }
+}</code></pre>
+
+<p><em>Note:</em> ExampleService - This is Pascal case. If you name your service file "myservice.service.ts", then your exported class should be: "Myservice".</p>
+
+<p><strong>Creating a Service with the Angular-CLI</strong></p>
+<p>This is fairly easy, as it generates the scaffolding for you. In the terminal, simply type:</p>
+
+<pre class="language-markup code-panel"><code class="language-markup">ng generate service myservicename
+OR
+ng g s myservicename //shortcut method
+</code></pre>
+<p>This will generate a myservicename.service.ts file within the app folder that contains the scaffolding from steps 1-4 above.</p>
+
+<p><strong>Importing the Service to your Components</strong></p>
+<p>You can either import your service directly within the components, or you can import them to the app.module.ts file, which will give all of your components access to that service. We'll show you both ways.</p>
+
+<p>Step 1: Import the Service to your Component</p>
+<p>Choose a component file and at the top, you must include the service member (line 2 below):</p>
+
+<pre class="language-markup code-panel"><code class="language-markup">import { Component } from '@angular/core';
+import { ExampleService } from './example.service';</code></pre>
+ 
+<p>Step 2: Add it as a Provider</p>
+<p>Now you must add it to the providers array in the Component decorator metadata (line 4 below):</p>
+
+<pre class="language-markup code-panel"><code class="language-markup">@Component({
+    selector: 'my-app',
+    template: '&lt;h1>{{ title }}&lt;/h1>',
+    <font color="yellow">providers: [ExampleService]</font>
+})</code></pre>
+
+<h3>Dependency Injection</h3>
+<p>Before moving to next step let us define and understand what is dependency injection mean:</p>
+<p><strong>Dependency injection</strong> means simply providing the dependencies of the class into it's constructor.</p>
+
+<p>Step 3: Include it through depedency injection</p>
+
+<p>In the constructor arguments of the component class, we include it through dependency injection:</p>
+
+<pre class="language-markup code-panel"><code class="language-markup">constructor(private _exampleService: ExampleService) {
+}</code></pre>
+
+<p>Step 4: Using the Service</p>
+<p>Now we can access the service's methods and properties by referencing the private _exampleService. For example:</p>
+
+<pre class="language-markup code-panel"><code class="language-markup">ngOnInit() {
+        this.title = this._exampleService.someMethod();
+}</code></pre>
+
+<p>This will result in <em>"Text from Angular Service!"</em> showing up within the h1 tag.</p>
+
+<p><strong>Including the Service in app.module.ts</strong></p>
+<p>The only step that differs when including a service in the app.module.ts from including it in a specific component is that you're declaring the service in the providers property of the app.module.ts @NgModule metadata, as opposed to the @Component's meta data:</p>
+
+<p>In app.module.ts:</p>
+
+<pre class="language-markup code-panel"><code class="language-markup">// other imports in app.module.ts
+import { ExampleService } from './example.service';
+
+@NgModule({
+  //other metadata properties
+  providers: [<font color="yellow">ExampleService</font>]
+})</code></pre>
+
+<p>Now all Components within our application will have access to ExampleService. We no longer need to include ExampleService in a providers array within the component's metadata.  We do still need to import the ExampleService at the top of the components that we wish to use.</p>
+</div>

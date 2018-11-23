@@ -1,0 +1,20 @@
+<div class="inner-content"><h2>Property Binding</h2>
+
+<p>From the exapmle below, Angular pulls the value from fullName property from the component and inserts it using the html property innerHtml of &lt;h1> element.</p>
+
+<pre class="language-markup code-panel"><code class="language-markup">import { Component } from '@angular/core';
+
+@Component({
+    selector: 'my-app',
+    template: `
+                &lt;h1 [innerHtml]='fullName'>&lt;/h1>
+              `
+})
+export class AppComponent {
+    fullName: string = 'Martin Luther King Jr';
+}</code></pre>
+<p>Property Binding is almost same as Interpolation and flow a value in one direction. It’s all about moving data in one direction from our components to HTML elements.</p>
+<p>To set an element property to a non-string data value, you must use property binding.</p>
+<p>Instead of using pair of square bracket to depict property binding you can also use the canonical form which is an alternate syntax to square bracket.</p>
+<pre class="language-markup code-panel"><code class="language-markup">&lt;button bind-disabled='isDisabled'>Try Me&lt;/button></code></pre>
+</div>

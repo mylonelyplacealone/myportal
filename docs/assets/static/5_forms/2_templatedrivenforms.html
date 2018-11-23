@@ -1,0 +1,434 @@
+<div class="inner-content"><h2>Template Driven Forms</h2>
+
+<p>In Template driven forms we bind directives and behaviour to our templates, and let Angular roll with it.</p>
+<p>Examples of these directives are ngModel and perhaps required, minlength and so forth. </p>
+<p>On a high-level, this is what template-driven forms achieve for us - by specifying directives to bind 
+  our models, values, validation and so on, we are letting the template do the work under the scenes.</p>
+
+<p><strong>Form base and interface</strong></p>
+<p>Here is the form structure that we will be using to implement our template-driven form:</p>
+
+<pre class="language-markup code-panel"><code class="language-markup">&lt;form novalidate>
+  &lt;label>
+    &lt;span>Full name&lt;/span>
+    &lt;input
+      type="text"
+      name="name"
+      placeholder="Your full name">
+  &lt;/label>
+  &lt;div>
+    &lt;label>
+      &lt;span>Email address&lt;/span>
+      &lt;input
+        type="email"
+        name="email"
+        placeholder="Your email address">
+    &lt;/label>
+    &lt;label>
+      &lt;span>Confirm address&lt;/span>
+      &lt;input
+        type="email"
+        name="confirm"
+        placeholder="Confirm your email address">
+    &lt;/label>
+  &lt;/div>
+  &lt;button type="submit">Sign up&lt;/button>
+  &lt;/form></code></pre>
+
+<p>We have three inputs, the first, the user’s name, followed by a grouped set of inputs that take the user’s email address.</p>
+
+<p>Things we’ll implement:</p>
+
+<ul>
+  <li>Bind to the user’s name, email, and confirm inputs</li>
+  <li>Required validation on all inputs</li>
+  <li>Show required validation errors</li>
+  <li>Disabling submit until valid</li>
+  <li>Submit function</li>
+</ul>
+
+<p>Secondly, we will be implementing this interface:</p>
+
+<pre class="language-markup code-panel"><code class="language-markup">// signup.interface.ts
+export interface User {
+  name: string;
+  account: {
+    email: string;
+    confirm: string;
+  }
+}</code></pre>
+
+<p><strong>ngModule and template-driven forms</strong></p>
+<p>Before we even dive into template-driven forms, we need to tell our @NgModule to use the FormsModule from @angular/forms:</p>
+
+<em>Tip: use FormsModule for template-driven, and ReactiveFormsModule for reactive forms.</em>
+
+<pre class="language-markup code-panel"><code class="language-markup">import { FormsModule } from '@angular/forms';
+
+@NgModule({
+  declarations: [...],
+  imports: [
+    ...,
+    FormsModule
+  ],
+  providers: [...],
+  bootstrap: [...]
+})
+export class AppModule {}</code></pre>
+
+<p><strong>Template-driven approach</strong></p>
+<p>With template-driven forms, we can essentially leave a component class empty until we need to read/write values (such as submit and setting initial or future data).</p>
+<p>Let’s start with a base SignupFormComponent and our above template:</p>
+
+<pre class="language-markup code-panel"><code class="language-markup">// signup-form.component.ts
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'signup-form',
+  template: `
+    &lt;form novalidate>...&lt;/form>
+  `
+})
+export class SignupFormComponent {
+  constructor() {}
+}</code></pre>
+
+<p>So, this is a typical component base that we need to get going. Well, to begin with, we don’t need to actually create any initial “data”, however, we will import our User interface and assign it to a public variable to kick things off:</p>
+
+<pre class="language-markup code-panel"><code class="language-markup">import { User } from './signup.interface';
+
+@Component({...})
+export class SignupFormComponent {
+  user: User = {
+    name: '',
+    account: {
+      email: '',
+      confirm: ''
+    }
+  };
+}</code></pre>
+
+<p>So, what was the purpose of what we just did with public user: User;? We’re binding a model that must adhere to the interface we created. Now we’re ready to tell our template-driven form what to do, to update and power that Object.</p>
+
+<p><strong>Binding ngForm and ngModel</strong></p>
+<p>Our first task is “Bind to the user’s name, email, and confirm inputs”. We bind with ngForm and ngModel. Let’s start with ngForm.</p>
+
+<pre class="language-markup code-panel"><code class="language-markup">&lt;form novalidate #f="ngForm">
+  &lt;label>
+    &lt;span>Full name&lt;/span>
+    &lt;input type="text" placeholder="Your full name">
+  &lt;/label>
+&lt;/form></code></pre>
+
+<p>In this &lt;form> we are exporting the ngForm value to a public #f variable, to which we can render out the value of the form.</p>
+
+<p><em>Tip: #f is the exported form Object, so think of this as the generated output to your model’s input.</em></p>
+
+<p>Let’s see what that would output for us when using f.value:</p>
+
+<pre class="language-markup"><code class="language-markup">{{ f.value | json }} // {}</code></pre>
+<p>There is a lot going on under the hood with ngForm which for the most part you do not need to know about to use template-driven forms.</p>
+
+<p>Here we get an empty Object as our form value has no models, so nothing will be logged out. This is where we create nested bindings inside the same form so Angular can look out for them. Now we’re ready to bind some models, but first there are a few different ngModel flavours we can roll with - so let’s break them down.</p>
+
+<p><strong>ngModel, [ngModel] and [(ngModel)]</strong></p>
+
+<p><strong>ngModel</strong> = if no binding or value is assigned, ngModel will look for a name attribute and assign that value as a new Object key to the global ngForm Object:</p>
+<pre class="language-markup code-panel"><code class="language-markup">&lt;form novalidate #f="ngForm">
+  ...
+    &lt;input
+     type="text"
+     placeholder="Your full name"
+     ngModel>
+  ...
+&lt;/form></code></pre>
+
+<p>However, this will actually throw an error as we need a name="" attribute for all our form fields:</p>
+
+<pre class="language-markup code-panel"><code class="language-markup">&lt;form novalidate #f="ngForm">
+  ...
+    &lt;input
+     type="text"
+     placeholder="Your full name"
+     name="name"
+     ngModel>
+  ...
+&lt;/form></code></pre>
+
+<p><em>Tip: ngModel “talks to” the form, and binds the form value based on the name attribute’s value. In this case name="name". Therefore it is needed.</em></p>
+
+<em>Output from this at runtime:</em>
+
+<pre class="language-markup"><code class="language-markup">{{ f.value | json }} // { name: '' }</code></pre>
+
+<p>This is our first binding. But what if we want to set initial data?</p>
+
+<p><strong>[ngModel]</strong> = one-way binding syntax, can set initial data from the bound component class, but will bind based on the name="foo" attribute, example:
+Some initial data for our user Object:</p>
+
+<pre class="language-markup code-panel"><code class="language-markup">...
+user: User = {
+  name: 'My Deck',
+  account: {
+    email: '',
+    confirm: ''
+  }
+};
+...</code></pre>
+
+<p>We can then simply bind user.name from our component class to the [ngModel]:</p>
+
+<pre class="language-markup code-panel"><code class="language-markup">&lt;form #f="ngForm">
+  ...
+    &lt;input
+      type="text"
+      placeholder="Your full name"
+      name="name"
+      [ngModel]="user.name">
+  ...
+&lt;/form></code></pre>
+
+<em>Output from this at runtime:</em>
+
+<pre class="language-markup"><code class="language-markup">{{ f.value | json }} // { name: 'My Deck' }</code></pre>
+
+<p>So this allows us to set some initial data from this.user.name, which automagically binds and outputs to f.value</p>
+
+<p><em>Note: The actual value of this.user.name is never updated upon form changes, this is one-way dataflow. Form changes from ngModel are exported onto the respectived f.value properties.</em></p>
+
+<p>It’s important to note that [ngModel] is in fact a model setter. This is ideally the approach you’d want to take instead of two-way binding.</p>
+
+<p><strong>[(ngModel)]</strong> = two-way binding syntax, can set initial data from the bound component class, but also update it:</p>
+<pre class="language-markup code-panel"><code class="language-markup">&lt;form #f="ngForm">
+  ...
+    &lt;input
+      type="text"
+      placeholder="Your full name"
+      name="name"
+      [(ngModel)]="user.name">
+  ...
+&lt;/form></code></pre>
+
+<em>Output from this (upon typing, both are reflected with changes):</em>
+
+<pre class="language-markup"><code class="language-markup">{{ user | json }} // { name: 'My Deck' }
+{{ f.value | json }} // { name: 'My Deck' }</code></pre>
+
+<p>This isn’t such a great idea, as we now have two separate states to keep track of inside the form component. Ideally, you’d implement one-way databinding and let the ngForm do all the work here.</p>
+
+<p>Side note, these two implementations are equivalents:</p>
+
+<pre class="language-markup code-panel"><code class="language-markup">&lt;input [(ngModel)]="user.name">
+&lt;input [ngModel]="user.name" (ngModelChange)="user.name = $event"></code></pre>
+
+<p>The [(ngModel)] syntax is sugar syntax for masking the (ngModelChange) event setter, that’s it.</p>
+
+<p><strong>ngModels and ngModelGroup</strong></p>
+
+<p>So now we’ve covered some intricacies of ngForm and ngModel, let’s hook up the rest of the template-driven form. We have a nested account property on our user Object, that accepts an email value and confirm value. To wire these up, we can introduce ngModelGroup to essentially created a nested group of ngModel friends:</p>
+
+<pre class="language-markup code-panel"><code class="language-markup">&lt;form novalidate #f="ngForm">
+  &lt;label>
+    &lt;span>Full name&lt;/span>
+    &lt;input
+      type="text"
+      placeholder="Your full name"
+      name="name"
+      ngModel>
+  &lt;/label>
+  &lt;div ngModelGroup="account">
+    &lt;label>
+      &lt;span>Email address&lt;/span>
+      &lt;input
+        type="email"
+        placeholder="Your email address"
+        name="email"
+        ngModel>
+    &lt;/label>
+    &lt;label>
+      &lt;span>Confirm address&lt;/span>
+      &lt;input
+        type="email"
+        placeholder="Confirm your email address"
+        name="confirm"
+        ngModel>
+    &lt;/label>
+  &lt;/div>
+  &lt;button type="submit">Sign up&lt;/button>
+&lt;/form></code></pre>
+
+<p>This creates a nice structure based on the representation in the DOM that pseudo-looks like this:</p>
+
+<pre class="language-markup"><code class="language-markup">ngForm -> '#f'
+    ngModel -> 'name'
+    ngModelGroup -> 'account'
+                 -> ngModel -> 'email'
+                 -> ngModel -> 'confirm'
+
+//Which matches up nicely with our this.user interface, and the runtime output:
+
+// { name: 'My Deck', account: { email: '', confirm: '' } }
+{{ f.value | json }}</code></pre>
+
+<p>This is why they’re called template-driven. So what next? Let’s add some submit functionality.</p>
+
+<p><strong>Template-driven submit</strong></p>
+<p>To wire up a submit event, all we need to do is add a ngSubmit event directive to our form:</p>
+
+<pre class="language-markup code-panel"><code class="language-markup">&lt;form novalidate (ngSubmit)="onSubmit(f)" #f="ngForm">
+  ...
+&lt;/form></code></pre>
+
+<p>Notice how we just passed f into the onSubmit(). This allows us to pull down various pieces of information from our respective method on our component class:</p>
+
+<pre class="language-markup code-panel"><code class="language-markup">import { NgForm } from '@angular/forms';
+ 
+@Component({...})
+export class SignupFormComponent {
+  user: User = {...};
+  onSubmit(form: NgForm) {
+    console.log(form);
+  }
+}</code></pre>
+
+<p>Here we are using form object to fetch the value and valid properties from that #f reference we exported and passed into onSubmit. The value is basically everything we saw from above when we parsed out the f.value in the DOM. That’s literally it, you are free to pass values to your backend API.</p>
+
+<p><strong>Template-driven error validation</strong></p>
+<p>First off, let’s start simple and disable our submit button until the form’s valid:</p>
+
+<pre class="language-markup code-panel"><code class="language-markup">&lt;form novalidate (ngSubmit)="onSubmit(f)" #f="ngForm">
+  ...
+  &lt;button type="submit" [disabled]="f.invalid">Sign up&lt;/button>
+&lt;/form></code></pre>
+
+<p>Here we are binding to the disabled property of the button, and setting it to true dynamically when f.invalid is true. When the form is valid, the submit button will be enabled.</p>
+
+<p>Next, the required attributes on each &lt;input>:</p>
+
+<pre class="language-markup code-panel"><code class="language-markup">&lt;form novalidate #f="ngForm">
+  &lt;label>
+    ...
+    &lt;input
+      ...
+      ngModel
+      required>
+  &lt;/label>
+  &lt;div ngModelGroup="account">
+    &lt;label>
+      ...
+      &lt;input
+        ...
+        name="email"
+        ngModel
+        required>
+    &lt;/label>
+    &lt;label>
+      ...
+      &lt;input
+        ...
+        name="confirm"
+        ngModel
+        required>
+    &lt;/label>
+  &lt;/div>
+  &lt;button type="submit">Sign up&lt;/button>
+&lt;/form></code></pre>
+
+<p>So, onto displaying errors. We have access to #f, which we can log out as f.value. Now, one thing we haven’t touched on is the inner workings of these magical ngModel and ngModelGroup directives. They actually, internally, spin up their own Form Controls and other gadgets. When it comes to referencing these controls, we must use the .controls property on the Object. Let’s say we want to show if there are any errors on the name property of our form:</p>
+
+<pre class="language-markup code-panel"><code class="language-markup">&lt;form novalidate #f="ngForm">
+  {{ f.controls.name?.errors | json }}
+&lt;/form></code></pre>
+
+<p>Note how we’ve used f.controls.name here, followed by the ?.errors. This is a safeguard mechanism to essentially tell Angular that this property might not exist yet, but render it out if it does. Similarly if the value becomes null or undefined again, the error is not thrown.</p>
+
+<p><em>Tip: ?.prop is called the <strong>“Safe navigation operator”</strong></em></p>
+
+<p>Let’s move onto setting up an error field for our form by adding the following error box to our name input:</p>
+
+<pre class="language-markup code-panel"><code class="language-markup">&lt;div *ngIf="f.controls.name?.required" class="error">
+  Name is required
+&lt;/div></code></pre>
+
+<p>This looks a little messy and is error prone if we begin to extend our forms with more nested Objects and data. Let’s fix that by exporting a new #userName variable from the input itself based on the ngModel Object:</p>
+
+<pre class="language-markup code-panel"><code class="language-markup">&lt;label>
+  ...
+  &lt;input
+    ...
+    #userName="ngModel"
+    required>
+&lt;/label>
+&lt;div *ngIf="userName.errors?.required" class="error">
+  Name is required
+&lt;/div></code></pre>
+
+<p>Now, this shows the error message at runtime, which we don’t want to alarm users with. What we can do is add some userName.touched into the mix:</p>
+
+<pre class="language-markup code-panel"><code class="language-markup">&lt;div *ngIf="userName.errors?.required && userName.touched" class="error">
+  Name is required
+&lt;/div></code></pre>
+
+<p><em>Tip: The touched property becomes true once the user has blurred the input, which may be a relevant time to show the error if they’ve not filled anything out</em></p>
+
+<p>Let’s add a minlength attribute just because:</p>
+
+<pre class="language-markup code-panel"><code class="language-markup">&lt;input
+  type="text"
+  placeholder="Your full name"
+  name="name"
+  ngModel
+  <font color="yellow">#userName="ngModel"</font>
+  minlength="2"
+  required></code></pre>
+
+<p>We can then replicate this validation setup now on the other inputs:</p>
+
+<pre class="language-markup code-panel"><code class="language-markup">&lt;!-- name -->
+&lt;div *ngIf="userName.errors?.required && userName.touched" class="error">
+  Name is required
+&lt;/div>
+&lt;div *ngIf="userName.errors?.minlength && userName.touched" class="error">
+  Minimum of 2 characters
+&lt;/div>
+
+&lt;!-- account: { email, confirm } -->
+&lt;div *ngIf="userEmail.errors?.required && userEmail.touched" class="error">
+  Email is required
+&lt;/div>
+&lt;div *ngIf="userConfirm.errors?.required && userConfirm.touched" class="error">
+  Confirming email is required
+&lt;/div></code></pre>
+
+<p><em>Tip: it may be ideal to minimise model reference exporting and inline validation, and move the validation to the ngModelGroup</em></p>
+
+<p>Let’s explore cutting down our validation for email and confirm fields (inside our ngModelGroup) and create a group-specific validation messages if that makes sense for the group of fields.</p>
+
+<p>To do this, we can export a reference to the ngModelGroup by using #userAccount="ngModelGroup", and adjusting our validation messages to the following:</p>
+
+<pre class="language-markup code-panel"><code class="language-markup">&lt;div ngModelGroup="account" #userAccount="ngModelGroup">
+  &lt;label>
+    &lt;span>Email address&lt;/span>
+    &lt;input
+      type="email"
+      placeholder="Your email address"
+      name="email"
+      ngModel
+      required>
+  &lt;/label>
+  &lt;label>
+    &lt;span>Confirm address&lt;/span>
+    &lt;input
+      type="email"
+      placeholder="Confirm your email address"
+      name="confirm"
+      ngModel
+      required>
+  &lt;/label>
+  &lt;div *ngIf="userAccount.invalid && userAccount.touched" class="error">
+    Both emails are required
+  &lt;/div>
+&lt;/div></code></pre>
+
+<p>We’ve also removed both #userEmail and #userConfirm references.</p>
+</div>

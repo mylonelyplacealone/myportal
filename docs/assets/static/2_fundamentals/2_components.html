@@ -1,0 +1,44 @@
+<div class="inner-content"><h2>Components</h2>
+
+<p>A component is basically a class that is used to show an element on the screen. The components have some properties and by using them we can manipulate how the element should look and behave on the screen. We can create a component, destroy, and update as the user moves in the application. Life Cycle hooks are the modules that we use for this purpose. Like ngOnInit()</p>
+<pre class="language-markup code-panel"><code class="language-markup">//app/app.component.ts 
+
+@Component({
+    selector: 'app-root',
+
+    templateUrl: './app.component.html',
+    OR template:'&lt;p>Hello, {{name}}!&lt;/p>',
+
+    styleUrls: ['./app.component.css'],
+    AND/OR styles:['.core{ color:red; }']
+})
+export class AppComponent { }</code></pre>
+
+<p>Here AppComponent is a component.Basically for any class to qualify as Component you need to decorate it with "@Component" decorator.</p>
+
+<p>The <em>@Component</em>&nbsp;decorator is an object with associated property / value pairs that defines important stuff associated with this component. There are other properties that can be added here, such as animations, but we'll get to that later.</p>
+<ul>
+    <li><strong>selector:</strong> This provides component with a unique identifier that is used in other areas of the app when you want to add this component inside other component.</li>
+    <li><strong>templateUrl:</strong> This tells Angular where this component's HTML file is located. This file defines the HTML outlet for the component in external file.</li>
+    <li><strong>template:</strong>  Another way to specify HTML template when there is less HTML. So instead of templateUrl template will be used. This contains the inline HTML template to be used for this component.</li>
+    <li><strong>styleUrls:</strong> This tells Angular where this component's CSS file/files are located.</li>
+    <li><strong>styles:</strong> Another way to specify styles. This contains the inline styles to be used for this component.</li>
+</ul>
+
+<p>Finally, we have the logic section of the component file in .component.ts file. This is where properties, dependency injection and methods are defined.</p>
+<p>Now that you understand the very basics of a component, let's create a few of our own!</p>
+  
+<p>In the Terminal, execute:</p>
+<pre class="language-markup code-panel"><code class=" language-markup">&gt; ng generate component sidebar
+  CREATE src/app/sidebar/sidebar.component.html (26 bytes)
+  CREATE src/app/sidebar/sidebar.component.spec.ts (635 bytes)
+  CREATE src/app/sidebar/sidebar.component.ts (274 bytes)
+  CREATE src/app/sidebar/sidebar.component.scss (0 bytes)
+  UPDATE src/app/app.module.ts (479 bytes)</code></pre>
+
+<p>Here, we've told the CLI to <strong>generate</strong>&nbsp;a <strong>component</strong>&nbsp;with the name of <strong>sidebar</strong>. It outputs the 4 files it created, along with the app module file it updated!</p>
+<p>Instead of above command we can use below shortcut as well to generate components from CLI.</p>
+
+<pre class="language-markup code-panel"><code class=" language-markup">&gt; ng g c sidebar</code></pre>
+</div>
+

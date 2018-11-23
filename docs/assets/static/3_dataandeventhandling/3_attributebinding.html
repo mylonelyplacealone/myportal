@@ -1,0 +1,17 @@
+<div class="inner-content"><h2>Attribute Binding</h2>
+
+<p>Angular 2 attribute binding is required in those cases when HTML attribute has no corresponding DOM property. </p>
+
+<p>Attribute binding is same as property binding with the difference that we need to add <font color="red">attr.</font> as prefix with attribute name. Here we will discuss attribute binding for colspan attribute of &lt;td> element.</p>
+
+<p>Suppose we have defined a property clspn with some numeric value in our component.</p>
+<p>   clspn = 2; </p>
+        
+<p>1. Find the attribute binding using bracket [].</p>
+<pre class="language-markup code-panel"><code class="language-markup">&lt;td [attr.colspan]="clspn"></code></pre>
+
+<p>2. Attribute binding using bind- keyword.</p>
+<pre class="language-markup code-panel"><code class="language-markup">&lt;td bind-attr.colspan = "clspn">  </code></pre>
+
+<p>3. Attribute binding using interpolation.</p>
+<pre class="language-markup code-panel"><code class="language-markup">&lt;td attr.colspan = "{{clspn}}"></code></pre>

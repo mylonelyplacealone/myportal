@@ -1,0 +1,175 @@
+<div class="inner-content"><h2>Angular Animation</h2>
+
+<p>Animation in Angular is not as straightforward or intuitive as you might have assumed. Nonetheless, it is very simple to achieve.</p>
+
+<p>To illustrate how behavioral component animations work in Angular, we are going to implement the jQuery slideToggle feature in an Angular application without bringing jQuery to the field.</p>
+
+<p><strong>The Host Component</strong></p>
+<p>Before adding animations, it is ideal to create a component that is going to host your animations:</p>
+
+<pre class="language-markup code-panel"><code class="language-markup">// ./app/toggle/toggle.component.ts
+import { Component } from '@angular/core';
+
+@Component({
+    selector: 'toggle',
+    template: `
+    &lt;div class="modal">
+        &lt;ng-content>&lt;/ng-content>
+    &lt;/div>
+    `,
+    styles: [ `
+        .modal {
+            background-color:#ffffff;
+            border:1px solid lightgray;
+            box-shadow:0 0 7px rgba(0,0,0,.2);
+            width:40%;
+            text-align:center;
+            padding:30px;
+            border-radius:6px;
+            font-weight:400;
+            margin:40px auto;
+            overflow-y: hidden;
+        }
+        `
+  ],
+})
+export class ToggleComponent {}</code></pre>
+
+<p>This is just a basic Angular component with template and styles.</p>
+
+<p><strong>Installing and Registering Animation Module</strong></p>
+<p>Run below command to install angular animations module to your application.</p>
+<pre class="language-markup code-panel"><code class="language-markup">npm install --save @angular/animations</code></pre>
+
+<p>Import BrowserAnimationsModule in app.module.ts file</p>
+
+<pre class="language-markup code-panel"><code class="language-markup">import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+@NgModule({
+    declarations: [...],
+    imports: [<font color="yellow">BrowserAnimationsModule</font>, ...]
+    ...
+})
+</code></pre>
+
+<p><strong>Creating Animation</strong></p>
+<p>To add animation to our existing component, we need to import some members from @angular/core. These members are solely for animation purposes as we will soon see:</p>
+
+<pre class="language-markup code-panel"><code class="language-markup">// ./app/toggle/toggle.component.ts
+import { Component,
+    // Animation members
+    <font color="yellow">trigger, state, animate, transition, style </font>
+} from '@angular/core';</code></pre>
+
+<p>We will discuss the purpose for each while we make use of them.</p>
+
+<p><strong>Animations</strong></p>
+<P>The Component meta-data does not end with just selectors, templates, and styles. There is one more called animations. animations is an array of declarative animations that we intend to apply to our component:</P>
+
+<pre class="language-markup code-panel"><code class="language-markup">// ./app/toggle/toggle.component.ts
+@Component({
+    ...
+    <font color="yellow">animations: [</font>
+    // Each animation created with 'trigger'
+    <font color="yellow">trigger('toggleState', [</font>
+      // Declare behavior for each state
+  ],
+})</code></pre>
+
+<p>The animations array can take as much as you consider useful. Each item in the array is the trigger method called with what triggers it and another array of configuration defining how the animation should behave.</p>
+
+<p>It is reasonable to wonder where toggleState came from. It is going to be a property on the component template that the animation will act on. Its values are used to determine what happens during the animation process. In our case, we expect the values to be a boolean so let's tell Angular what to do when the value is either true or false:</p>
+
+<pre class="language-markup code-panel"><code class="language-markup">// ./app/toggle/toggle.component.ts
+@Component({
+    ...
+    animations: [
+    trigger('toggleState', [
+      // What happens when toggleState is true
+      <font color="yellow">state('true' , style({ maxHeight: '200px' })),</font>
+      // What happens when toggleState is false
+      <font color="yellow">state('false', style({ maxHeight: 0, padding: 0, display: 'none' }))</font>
+    ])
+  ],
+})</code></pre>
+
+<p>What we are trying to do is to slide in when toggleState value is true and slide out when the value is false. We now have animation points, how about transitioning:</p>
+
+<p><strong>Transitioning</strong></p>
+
+<pre class="language-markup code-panel"><code class="language-markup">// ./app/toggle/toggle.component.ts
+@Component({
+    ...
+    animations: [
+    trigger('toggleState', [
+      state('true' , style({  })),
+      state('false', style({ maxHeight: 0, padding: 0, display: 'none' })),
+      // transition
+      <font color="yellow">transition('* => *', animate('300ms')),</font>
+    ])
+  ],
+})</code></pre>
+
+<p>transition method takes a flow string which determines how the animation will be executed. The wildcard sign (*) means that from any given state to another given state, it should perform the animation for 300ms. To break it down, if the transition is from true to false or false to true, it would use a duration of 300ms to complete it</p>
+
+<p>The illustration might not be the desired behavior sometimes. You might want one transition to be faster than the other. To do that, you can call the transition method multiple times:</p>
+
+<pre class="language-markup"><code class="language-markup">transition('0 => 1', animate('300ms')),
+transition('1 => 0', animate('500ms'))</code></pre>
+
+<p><strong>Triggering Animation</strong></p>
+<p>Now that we have successfully set up a slide animation, what is left is to mount is the animation as a property to the element we want to animate. In this case, the div in our ToggleComponent template;</p>
+
+<pre class="language-markup code-panel"><code class="language-markup">// ./app/toggle/toggle.component.ts
+@Component({
+    selector: 'toggle',
+    template: `
+    &lt;div class="modal" <font color="yellow">[@toggleState]="shouldToggle"</font>>
+        &lt;ng-content>&lt;/ng-content>
+    &lt;/div>
+    `,
+    ...
+})</code></pre>
+
+<p>The toggleState trigger, which we defined earlier, is now added to our component's template and passed in a value. The value must be a boolean and can be setup by any event of your choice, in my case a click event:</p>
+
+<pre class="language-markup code-panel"><code class="language-markup">// ./app/toggle/toggle.component.ts
+import { 
+    Component, Input,
+    trigger, state, animate, transition, style 
+} from '@angular/core';
+
+....
+
+export class ToggleComponent {
+    <font color="yellow">@Input() shouldToggle = false;</font>
+}</code></pre>
+
+<p>Because we are receiving the value from a parent component using Input, let's have a look at how the parent component implements the event:</p>
+
+<pre class="language-markup code-panel"><code class="language-markup">// ./app/app.component.ts
+import { Component } from '@angular/core';
+
+@Component({
+    selector: 'app',
+    templateUrl: `
+    &lt;div id="fab" <font color="yellow">(click)="handleClick()"</font>>
+      &lt;div id="icon">
+      +
+      &lt;/div>
+    &lt;/div>
+    
+    <font color="yellow">&lt;toggle [shouldToggle]="toggle">Hello&lt;/toggle></font>
+    `,
+    styleUrls: ['
+    ...
+    ']
+})
+export class AppComponent{
+    toggle = false;
+    handleClick(){
+        <font color="yellow">this.toggle = !this.toggle</font>
+    }
+}</code></pre>
+
+<p>The event is triggered when the fab is clicked. The event handler toggles a toggle property with false or true value. This value is then passed to the toggle element's [shouldToggle] property.</p>
+</div>

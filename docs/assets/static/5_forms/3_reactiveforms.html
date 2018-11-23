@@ -1,0 +1,461 @@
+<div class="inner-content"><h2>Reactive Forms</h2>
+
+<p>When we talk about “reactive” forms (also known as model-driven), we will be avoiding directives such as ngModel, required and minlength.</p> 
+<p>The idea is that instead of declaring that we want Angular to power things for us, we can actually use the underlying APIs to do them for us.</p>
+<p>In a sense, instead of binding Object models to directives like template-driven forms, we in fact boot up our own instances inside a component class and construct our own JavaScript models.</p> 
+<p>This has much more power and is extremely productive to work with as it allows us to write expressive code, that is very testable and keeps all logic in the same place, instead of scattering it around different form templates.</p> 
+
+<p><strong>Form base and interface</strong></p>
+<p>The base form structure that we’ll be using to implement our reactive form:</p>
+
+<pre class="language-markup code-panel"><code class="language-markup">&lt;form novalidate>
+    &lt;label>
+      &lt;span>Full name&lt;/span>
+      &lt;input
+        type="text"
+        name="name"
+        placeholder="Your full name">
+    &lt;/label>
+    &lt;div>
+      &lt;label>
+        &lt;span>Email address&lt;/span>
+        &lt;input
+          type="email"
+          name="email"
+          placeholder="Your email address">
+      &lt;/label>
+      &lt;label>
+        &lt;span>Confirm address&lt;/span>
+        &lt;input
+          type="email"
+          name="confirm"
+          placeholder="Confirm your email address">
+      &lt;/label>
+    &lt;/div>
+    &lt;button type="submit">Sign up&lt;/button>
+&lt;/form></code></pre>
+
+<p>We have three inputs, the first, the user’s name, followed by a grouped set of inputs that take the user’s email address.</p>
+
+<p>Things we’ll implement:</p>
+
+<ul>
+  <li>Bind to the user’s name, email, and confirm inputs</li>
+  <li>Required validation on all inputs</li>
+  <li>Show required validation errors</li>
+  <li>Disabling submit until valid</li>
+  <li>Submit function</li>
+</ul>
+
+<p>Secondly, we will be implementing this interface:</p>
+
+<pre class="language-markup code-panel"><code class="language-markup">// signup.interface.ts
+export interface User {
+  name: string;
+  account: {
+    email: string;
+    confirm: string;
+  }
+}</code></pre>
+
+<p><strong>ngModule and reactive forms</strong></p>
+<p>Before we even dive into reactive forms, we need to tell our @NgModule to use the ReactiveFormsModule from @angular/forms:</p>
+
+<pre class="language-markup code-panel"><code class="language-markup">import { ReactiveFormsModule } from '@angular/forms';
+
+@NgModule({
+  declarations: [...],
+  imports: [
+    ...,
+    ReactiveFormsModule
+  ],
+  providers: [...],
+  bootstrap: [...]
+})
+export class AppModule {}</code></pre>
+
+<p>You will obviously need to wire up all your other dependencies in the correct @NgModule definitions.</p>
+
+<p>Tip: use ReactiveFormsModule for reactive forms, and FormsModule for template-driven forms.</p>
+
+<p><strong>Reactive approach</strong></p>
+
+Let’s begin with a base SignupFormComponent and add our above template:
+
+<pre class="language-markup code-panel"><code class="language-markup">// signup-form.component.ts
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'signup-form',
+  template: `
+    &lt;form novalidate>...&lt;/form>
+  `
+})
+export class SignupFormComponent {
+  constructor() {}
+}</code></pre>
+
+<p>This is a typical component base that we need to get going. So what now? Well, to begin with, we don’t need to actually create any initial “data”, however, we do need to start understanding FormControl, FormGroup, and finally move onto the amazing FormBuilder.</p>
+
+<p><strong>FormControl and FormGroup</strong></p>
+<p>Before digging into these APIs, I would strongly recommend checking out previous article on template-driven forms to gain a better understanding of what’s happening.</p>
+
+<p>Let’s define what FormControl and FormGroup are:</p>
+
+<p><strong>FormControl</strong> is a class that powers an individual form control, tracks the value and validation status, whilst offering a wide set of public API methods.
+Basic example:</p>
+
+<pre class="language-markup code-panel"><code class="language-markup">ngOnInit() {
+  this.myControl = new FormControl('My Deck');
+}</code></pre>
+
+<p><strong>FormGroup</strong> is a group of FormControl instances, also keeps track of the value and validation status for the said group, also offers public APIs.
+Basic example:</p>
+
+<pre class="language-markup code-panel"><code class="language-markup">ngOnInit() {
+  this.myGroup = new FormGroup({
+    name: new FormControl('My Deck'),
+    location: new FormControl('Pune, India')
+  });
+}</code></pre>
+
+<p>Right, so we have an example of invoking new instances of FormControl and FormGroup, now how do we use them? It’s actually much easier than you’d think. Let’s assume we will bind our FormGroup to a fresh code example before we continue with our signup form, so hopefully things click and you can follow easier:</p>
+
+<pre class="language-markup code-panel"><code class="language-markup">&lt;form novalidate <font color="yellow">[formGroup]="myGroup"</font>>
+  Name: &lt;input type="text" <font color="yellow">formControlName="name"</font>>
+  Location: &lt;input type="text" <font color="yellow">formControlName="location"</font>>
+&lt;/form></code></pre>
+
+<p><em>Note: you’ll notice ngModel and name="" attributes have been toasted, this is good thing as it makes our markup less declarative (which can become complex, quickly, with forms)</em></p>
+
+<p>On the form, we must declare [formGroup] as a binding, and formControlName as a directive with the corresponding Object key name. This is what we have:</p>
+
+<pre class="language-markup"><code class="language-markup">FormGroup -> 'myGroup'
+    FormControl -> 'name'
+    FormControl -> 'location'</code></pre>
+  
+<p><strong>Implementing our FormGroup model</strong></p>
+<p>So now we’ve learned the basis of FormGroup and FormControl, we can think about implementing our own now. But first, what does our interface say?</p>
+
+<pre class="language-markup code-panel"><code class="language-markup">// signup.interface.ts
+export interface User {
+  name: string;
+  account: {
+    email: string;
+    confirm: string;
+  }
+}</code></pre>
+
+<p>So, we’ll need to implement a similar structure with JavaScript Objects using this composition:</p>
+
+<pre class="language-markup"><code class="language-markup">FormGroup -> 'user'
+    FormControl -> 'name'
+    FormGroup -> 'account'
+        FormControl -> 'email'
+        FormControl -> 'confirm'</code></pre>
+
+<p>Yes, we can create nested FormGroup collections! Let’s make that come alive, but with no initial data:</p> 
+
+<pre class="language-markup code-panel"><code class="language-markup">import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
+
+@Component({...})
+export class SignupFormComponent implements OnInit {
+  user: FormGroup;
+  ngOnInit() {
+    this.user = new FormGroup({
+      name: new FormControl(''),
+      account: new FormGroup({
+        email: new FormControl(''),
+        confirm: new FormControl('')
+      })
+    });
+  }
+}</code></pre>
+
+<p>If we did want to set initial data, we can do so as per the above examples whereby we pre-populate particular strings with information, which typically are data-driven from a backend API.</p>
+
+<p><strong>Binding our FormGroup model</strong></p>
+
+<p>Now we have instantiated the FormGroup model, it’s obviously time to bind it to the DOM. Using what we’ve learned before, let’s go ahead:</p>
+
+<pre class="language-markup code-panel"><code class="language-markup">&lt;form novalidate [formGroup]="user">
+  &lt;label>
+    &lt;span>Full name&lt;/span>
+    &lt;input
+      type="text"
+      placeholder="Your full name"
+      formControlName="name">
+  &lt;/label>
+  &lt;div formGroupName="account">
+    &lt;label>
+      &lt;span>Email address&lt;/span>
+      &lt;input
+        type="email"
+        placeholder="Your email address"
+        formControlName="email">
+    &lt;/label>
+    &lt;label>
+      &lt;span>Confirm address&lt;/span>
+      &lt;input
+        type="email"
+        placeholder="Confirm your email address"
+        formControlName="confirm">
+    &lt;/label>
+  &lt;/div>
+  &lt;button type="submit">Sign up&lt;/button>
+&lt;/form></code></pre>
+
+<p>Now our FormGroup and FormControl matches with the DOM structure:</p>
+
+<pre class="language-markup"><code class="language-markup">// JavaScript APIs
+FormGroup -> 'user'
+    FormControl -> 'name'
+    FormGroup -> 'account'
+        FormControl -> 'email'
+        FormControl -> 'confirm'
+
+// DOM bindings
+formGroup -> 'user'
+    formControlName -> 'name'
+    formGroupName -> 'account'
+        formControlName -> 'email'
+        formControlName -> 'confirm'</code></pre>
+
+<p>Unlike template-driven forms, where we would do something like #f="ngForm", and print f.value in the DOM to check our form out, we do the opposite with reactive forms, as the [formGroup] is a directive that we bind to, passing the public user Object in:</p>
+
+<pre class="language-markup"><code class="language-markup">// { name: '', account: { email: '', confirm: '' } }
+{{ user.value | json }}</code></pre>
+
+<p><strong>Reactive submit</strong></p>
+<p>This is actually the exact same as the template-driven approach, however we can optionally reference the form internally to the component, instead of passing it in as a value. First, the ngSubmit value-passing:</p>
+
+<pre class="language-markup code-panel"><code class="language-markup">&lt;form novalidate (ngSubmit)="onSubmit(user)" [formGroup]="user">
+  ...
+&lt;/form></code></pre>
+
+<p>Notice how we just passed user into the onSubmit()? This allows us to pull down various pieces of information from our respective method on our component class:</p>
+
+<pre class="language-markup code-panel"><code class="language-markup">import { NgForm } from '@angular/forms';
+export class SignupFormComponent {
+  user: FormGroup;
+  onSubmit(ngForm:NgForm) {
+    console.log(ngForm);
+  }
+}</code></pre>
+
+<p>Here we are using ngForm Object to fetch the value and valid properties from the user reference we pass into onSubmit. The value is the same reference as printing user.value out in the DOM. That’s literally it, you are free to pass values to your backend API.</p>
+
+<p>Now, for the more internal approach. Because this.user is technically our model, we can simply reference the model onSubmit internally, and not pass user through as a function argument:</p>
+
+<pre class="language-markup code-panel"><code class="language-markup">export class SignupFormComponent {
+  user: FormGroup;
+  onSubmit() {
+    console.log(this.user.value, this.user.valid);
+  }
+}</code></pre>
+
+<p><strong>Reactive error validation</strong></p>
+<p>So far, we have implemented zero validation. To add validation, we actually need to import the lovely Validators from @angular/forms and pass them in as a second argument to our FormControl instances:</p>
+
+<pre class="language-markup code-panel"><code class="language-markup">ngOnInit() {
+  this.user = new FormGroup({
+    name: new FormControl('', <font color="yellow">[Validators.required, Validators.minLength(2)]</font>),
+    account: new FormGroup({
+      email: new FormControl('', <font color="yellow">Validators.required</font>),
+      confirm: new FormControl('', <font color="yellow">Validators.required</font>)
+    })
+  });
+}</code></pre>
+
+<p>For multiple Validators per FormControl, we need to use an array to contain them.</p>
+
+<p>This is now a replacement for adding &lt;input required> to the DOM, which means we never have to touch it. Internally, when using required directives in template-driven forms, Angular will actually create this stuff under-the-hood for us, so that’s the main difference between the two implementations.</p>
+
+<p>However, we are going to create [disabled] binding just like in the template-driven approach to disable the submit when the form is invalid:</p>
+
+<pre class="language-markup code-panel"><code class="language-markup">&lt;form novalidate (ngSubmit)="onSubmit(user)" [formGroup]="user">
+  ...
+  &lt;button type="submit" [disabled]="user.invalid">Sign up&lt;/button>
+&lt;/form></code></pre>
+
+<p>All ready to go, now when we actually have validation errors, we need to now show them. When it comes to referencing the controls powering the errors, we must use the .controls property on the Object. Let’s say we want to show if there are any errors on the name property of our form:</p>
+
+<pre class="language-markup code-panel"><code class="language-markup">&lt;form novalidate [formGroup]="user">
+  {{ user.controls.name?.errors | json }}
+&lt;/form></code></pre>
+
+<p>We also have a .get() method that will lookup that control (More preferrable as it’s a nicer API and avoids ?.errors):</p>
+
+<pre class="language-markup code-panel"><code class="language-markup">&lt;form novalidate [formGroup]="user">
+  {{ user<font color="yellow">.get('name')</font>.errors | json }}
+&lt;/form></code></pre>
+
+<p>So, onto implementing the validation, we need to add the following to the correct portions of the form:</p>
+
+<pre class="language-markup code-panel"><code class="language-markup">&lt;!-- name -->
+&lt;div
+  class="error"
+  *ngIf="user.get('name')<font color="yellow">.hasError('required')</font> && user.get('name').touched">
+  Name is required
+&lt;/div>
+&lt;div
+  class="error"
+  *ngIf="user.get('name').hasError('minlength') && user.get('name').touched">
+  Minimum of 2 characters
+&lt;/div>
+
+&lt;!-- account -->
+&lt;div
+  class="error"
+  *ngIf="user.get('account').get('email').hasError('required') && user.get('account').get('email').touched">
+  Email is required
+&lt;/div>
+&lt;div
+  class="error"
+  *ngIf="user.get('account').get('confirm').hasError('required') && user.get('account').get('confirm').touched">
+  Confirming email is required
+&lt;/div></code></pre>
+
+<p><em>Tip: The touched property becomes true once the user has blurred the input, which may be a relevant time to show the error if they have not filled anything out</em></p>
+
+<p>Code so far</p>
+<p>This is what we’ve achieved up until now:</p>
+
+<pre class="language-markup code-panel"><code class="language-markup">import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { User } from './signup.interface';
+
+@Component({
+  selector: 'signup-form',
+  template: `
+    &lt;form novalidate (ngSubmit)="onSubmit(user)" [formGroup]="user">
+      &lt;label>
+        &lt;span>Full name&lt;/span>
+        &lt;input type="text" placeholder="Your full name" formControlName="name">
+      &lt;/label>
+      &lt;div class="error" *ngIf="user.get('name').hasError('required') && user.get('name').touched">
+        Name is required
+      &lt;/div>
+      &lt;div class="error" *ngIf="user.get('name').hasError('minlength') && user.get('name').touched">
+        Minimum of 2 characters
+      &lt;/div>
+      &lt;div formGroupName="account">
+        &lt;label>
+          &lt;span>Email address&lt;/span>
+          &lt;input type="email" placeholder="Your email address" formControlName="email">
+        &lt;/label>
+        &lt;div
+          class="error"
+          *ngIf="user.get('account').get('email').hasError('required') && 
+                 user.get('account').get('email').touched">
+          Email is required
+        &lt;/div>
+        &lt;label>
+          &lt;span>Confirm address&lt;/span>
+          &lt;input type="email" placeholder="Confirm your email address" formControlName="confirm">
+        &lt;/label>
+        &lt;div
+          class="error"
+          *ngIf="user.get('account').get('confirm').hasError('required') && 
+                 user.get('account').get('confirm').touched">
+          Confirming email is required
+        &lt;/div>
+      &lt;/div>
+      &lt;button type="submit" [disabled]="user.invalid">Sign up&lt;/button>
+    &lt;/form>
+  `
+})
+export class SignupFormComponent implements OnInit {
+  user: FormGroup;
+
+  constructor() {}
+
+  ngOnInit() {
+    this.user = new FormGroup({
+      name: new FormControl('', [Validators.required, Validators.minLength(2)]),
+      account: new FormGroup({
+        email: new FormControl('', Validators.required),
+        confirm: new FormControl('', Validators.required)
+      })
+    });
+  }
+
+  onSubmit({ value, valid }: { value: User, valid: boolean }) {
+    console.log(value, valid);
+  }
+}</code></pre>
+
+<p><strong>Simplifying with FormBuilder</strong></p>
+<p>This is where things get even smoother! Instead of using FormGroup and FormControl directly, we can use a magical API(<strong>FormBuilder</strong>) underneath that does it all for us.</p>
+
+<p>First up, we’ll need to change our imports from this:</p>
+
+<pre class="language-markup code-panel"><code class="language-markup">import { FormControl, FormGroup, Validators } from '@angular/forms';
+
+export class SignupFormComponent implements OnInit {
+  user: FormGroup;
+  constructor() {}
+  ...
+}</code></pre>
+
+<p>To this (with additional constructor injection to make this.fb available as the FormBuilder) :</p>
+
+<pre class="language-markup code-panel"><code class="language-markup">import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+
+export class SignupFormComponent implements OnInit {
+  user: FormGroup;
+  constructor(<font color="yellow">private fb: FormBuilder</font>) {}
+  ...
+}</code></pre>
+
+<p>This is because user: FormGroup; on our component class is of type FormGroup. So, what is FormBuilder? It’s essentially syntax sugar that creates FormGroup, FormControl and FormArray instances for us (we’ll cover FormArray in another article). It’s just simple sugar, but now you know what it’s for.</p>
+
+<p>Let’s refactor our code to use FormBuilder:</p>
+
+<pre class="language-markup code-panel"><code class="language-markup">// before
+ngOnInit() {
+  this.user = new FormGroup({
+    name: new FormControl('', [Validators.required, Validators.minLength(2)]),
+    account: new FormGroup({
+      email: new FormControl('', Validators.required),
+      confirm: new FormControl('', Validators.required)
+    })
+  });
+}
+
+// after
+ngOnInit() {
+  this.user = this.fb.group({
+    name: ['', [Validators.required, Validators.minLength(2)]],
+    account: this.fb.group({
+      email: ['', Validators.required],
+      confirm: ['', Validators.required]
+    })
+  });
+}</code></pre>
+<p>The refactoring is self-explanatory, but let’s roll over it quickly.</p>
+
+<p>Instead of using new FormGroup() for example, we’re injecting FormBuilder as fb, and creating a new this.fb.group(). The structure of these are identical to creating the controls and groups by themselves, it’s just syntax sugar. Which leaves us with a component class that looks like this:</p>
+
+<pre class="language-markup code-panel"><code class="language-markup">@Component({...})
+export class SignupFormComponent implements OnInit {
+  user: FormGroup;
+
+  constructor(private fb: FormBuilder) {}
+
+  ngOnInit() {
+    this.user = this.fb.group({
+      name: ['', [Validators.required, Validators.minLength(2)]],
+      account: this.fb.group({
+        email: ['', Validators.required],
+        confirm: ['', Validators.required]
+      })
+    });
+  }
+  
+  onSubmit({ value, valid }: { value: User, valid: boolean }) {
+    console.log(value, valid);
+  }
+}</code></pre>
+</div>
