@@ -58,7 +58,7 @@ export class AppDataService{
       ],  '1_introduction'),
 
       new MenuItem('Animations', 1, "8_animations", "glyphicon glyphicon-globe", [],  '1_animations'),
- 
+  
       new MenuItem('Deployments', 1, "9_deployments", "glyphicon glyphicon-globe", [
         new MenuItem('Firebase', 2, "9_deployments", "glyphicon glyphicon-tag", [], '2_firebase'),
         new MenuItem('Github', 2, "9_deployments", "glyphicon glyphicon-tasks", [], '3_github'),
