@@ -61,7 +61,8 @@ export class AppDataService{
 
       new MenuItem('Deployments', 1, "9_deployments", "glyphicon glyphicon-globe", [
         new MenuItem('Firebase', 2, "9_deployments", "glyphicon glyphicon-tag", [], '2_firebase'),
-        new MenuItem('Heroku', 2, "9_deployments", "glyphicon glyphicon-tasks", [], '3_heroku'),
+        new MenuItem('Github', 2, "9_deployments", "glyphicon glyphicon-tasks", [], '3_github'),
+        new MenuItem('Heroku', 2, "9_deployments", "glyphicon glyphicon-tasks", [], '4_heroku'),
       ],  '1_introduction'),
   ];
 
