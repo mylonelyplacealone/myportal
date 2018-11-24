@@ -8,10 +8,12 @@ import { UsersComponent } from './users/users.component';
 import { CoursedetailsComponent } from './coursedetails/coursedetails.component';
 import { ContactusComponent } from './contactus/contactus.component';
 import { AboutComponent } from './about/about.component';
+import { StartpageComponent } from './startpage/startpage.component';
 
 const appRoutes: Routes = [
     { path: '', component: SigninComponent},
-    { path: 'home', component: HomeComponent, canActivate: [AuthGuard]},
+    // { path: 'home', component: HomeComponent, canActivate: [AuthGuard]},
+    { path: 'home', component: StartpageComponent, canActivate: [AuthGuard]},
     { path: 'coursedetails', component: CoursedetailsComponent, canActivate: [AuthGuard]},
     { path: 'about', component: AboutComponent, canActivate: [AuthGuard]},
     { path: 'contactus', component: ContactusComponent, canActivate: [AuthGuard]},

@@ -21,6 +21,7 @@ import { safe } from './code/safehtml.pipe';
 import { CoursedetailsComponent } from './coursedetails/coursedetails.component';
 import { ContactusComponent } from './contactus/contactus.component';
 import { AboutComponent } from './about/about.component';
+import { StartpageComponent } from './startpage/startpage.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { AboutComponent } from './about/about.component';
     safe,
     CoursedetailsComponent,
     ContactusComponent,
-    AboutComponent
+    AboutComponent,
+    StartpageComponent
   ],
   imports: [
     BrowserModule,
