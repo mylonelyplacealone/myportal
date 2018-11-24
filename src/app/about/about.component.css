@@ -1,0 +1,13 @@
+hr {
+    display: block;
+    overflow: hidden;
+    border-style: inset;
+    border-width: 1px;
+    background-color: #333;
+    height: 5px;
+    margin-top:-7px;
+}
+
+p{
+    margin-left:10px;
+}
