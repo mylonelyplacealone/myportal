@@ -1,4 +1,5 @@
 export class MenuItem{
+    public id:number;
     public name:string;
     public level:number;
     public parent:string;
@@ -6,7 +7,8 @@ export class MenuItem{
     public icon:string;
     public children:MenuItem[];
 
-    constructor(name:string, level:number, parent:string, icon:string, children:MenuItem[], link?:string){
+    constructor(id:number, name:string, level:number, parent:string, icon:string, children:MenuItem[], link?:string){
+        this.id = id;
         this.name = name;
         this.level = level;
         this.parent = parent;

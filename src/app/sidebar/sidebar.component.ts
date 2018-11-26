@@ -48,6 +48,7 @@ export class SidebarComponent implements OnInit {
 
   ngOnInit() {
     this.menulevel = this.appDataSer.getMenus();
+    // localStorage.setItem("menus", this.menulevel.toString());
    }
 
   toggleSidebar(){

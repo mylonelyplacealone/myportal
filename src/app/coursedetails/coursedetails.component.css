@@ -44,3 +44,13 @@
 :host ::ng-deep .inner-content{
     margin-top:-15px;
 }
+
+.btn-primary{
+    background-color: #333;
+}
+
+.buttonbar{
+    padding:5px;
+    border: 1px solid #333;
+    border-radius: 10px;
+}

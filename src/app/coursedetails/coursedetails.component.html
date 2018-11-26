@@ -2,6 +2,16 @@
   <app-sidebar></app-sidebar> 
   
   <div class="content">
+    <div class="buttonbar">
+      <button [routerLink]="['/coursedetails']" [queryParams]="{ val: previousVal }" 
+        [disabled]="currentId === 1" class="btn btn-primary">
+        Previous
+      </button>
+      <button [routerLink]="['/coursedetails']" [queryParams]="{ val: nextVal }" style="float:right;" 
+        [disabled]="currentId === menus.length" class="btn btn-primary">
+        Next
+      </button>
+    </div>
     <div [innerHtml] = 'pageData | safeHtml'></div>
   </div>
 </div>

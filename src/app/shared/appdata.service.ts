@@ -8,61 +8,61 @@ import { MenuItem } from '../sidebar/menuitem.model';
 export class AppDataService{ 
 
   menus:MenuItem[] = [
-      new MenuItem('Getting Started', 1, "1_gettingstarted", "glyphicon glyphicon-globe", [
-        new MenuItem('Architecture', 2, "1_gettingstarted", "glyphicon glyphicon-tag", [], '2_architecture'),
-        new MenuItem('Setup Dev Environment', 2, "1_gettingstarted", "glyphicon glyphicon-tasks", [], '3_setupdevelopmentenvironment'),
-        new MenuItem('First Angular App', 2, "1_gettingstarted", "glyphicon glyphicon-user", [], '4_firstapp'),
-        new MenuItem('Project Structure', 2, "1_gettingstarted", "glyphicon glyphicon-fullscreen", [], '5_projectstructure'),
-        new MenuItem('Version History', 2, "1_gettingstarted", "glyphicon glyphicon-send",[],  '6_versionhistory'),
+      new MenuItem(1, 'Getting Started', 1, "1_gettingstarted", "glyphicon glyphicon-globe", [
+        new MenuItem(2, 'Architecture', 2, "1_gettingstarted", "glyphicon glyphicon-tag", [], '2_architecture'),
+        new MenuItem(3, 'Setup Dev Environment', 2, "1_gettingstarted", "glyphicon glyphicon-tasks", [], '3_setupdevelopmentenvironment'),
+        new MenuItem(4, 'First Angular App', 2, "1_gettingstarted", "glyphicon glyphicon-user", [], '4_firstapp'),
+        new MenuItem(5, 'Project Structure', 2, "1_gettingstarted", "glyphicon glyphicon-fullscreen", [], '5_projectstructure'),
+        new MenuItem(6, 'Version History', 2, "1_gettingstarted", "glyphicon glyphicon-send",[],  '6_versionhistory'),
       ],  '1_gettingstarted'),
 
-      new MenuItem('Angular Fundamentals', 1, "2_fundamentals", "glyphicon glyphicon-globe", [
-        new MenuItem('Components', 2, "2_fundamentals", "glyphicon glyphicon-tag", [], '2_components'),
-        new MenuItem('Directives', 2, "2_fundamentals", "glyphicon glyphicon-tasks", [], '3_directives'),
-        new MenuItem('Services', 2, "2_fundamentals", "glyphicon glyphicon-user", [], '4_services'),
+      new MenuItem(7, 'Angular Fundamentals', 1, "2_fundamentals", "glyphicon glyphicon-globe", [
+        new MenuItem(8, 'Components', 2, "2_fundamentals", "glyphicon glyphicon-tag", [], '2_components'),
+        new MenuItem(9, 'Directives', 2, "2_fundamentals", "glyphicon glyphicon-tasks", [], '3_directives'),
+        new MenuItem(10, 'Services', 2, "2_fundamentals", "glyphicon glyphicon-user", [], '4_services'),
       ],  '1_fundamentals'),
 
-      new MenuItem('Data and Event Binding', 1, "3_dataandeventhandling", "glyphicon glyphicon-globe", [
-        new MenuItem('Property Binding', 2, "3_dataandeventhandling", "glyphicon glyphicon-tasks", [], '2_propertybinding'),
-        new MenuItem('Attribute Binding', 2, "3_dataandeventhandling", "glyphicon glyphicon-user", [], '3_attributebinding'),
-        new MenuItem('Adding Bootstrap', 2, "3_dataandeventhandling", "glyphicon glyphicon-fullscreen", [], '4_addingbootstrap'),
-        new MenuItem('Class Binding', 2, "3_dataandeventhandling", "glyphicon glyphicon-send",[],  '5_classbinding'),
-        new MenuItem('Style Binding', 2, "3_dataandeventhandling", "glyphicon glyphicon-tasks", [], '6_stylebinding'),
-        new MenuItem('Event Binding', 2, "3_dataandeventhandling", "glyphicon glyphicon-user", [], '7_eventbinding'),
-        new MenuItem('Event Filtering', 2, "3_dataandeventhandling", "glyphicon glyphicon-fullscreen", [], '8_eventfiltering'),
-        new MenuItem('Template Variables', 2, "3_dataandeventhandling", "glyphicon glyphicon-send",[],  '9_templatevariables'),
-        new MenuItem('Two-Way Binding', 2, "3_dataandeventhandling", "glyphicon glyphicon-tasks", [], '10_twowaybinding'),
-        new MenuItem('Pipes', 2, "3_dataandeventhandling", "glyphicon glyphicon-user", [], '11_pipes'),
+      new MenuItem(11, 'Data and Event Binding', 1, "3_dataandeventhandling", "glyphicon glyphicon-globe", [
+        new MenuItem(12, 'Property Binding', 2, "3_dataandeventhandling", "glyphicon glyphicon-tasks", [], '2_propertybinding'),
+        new MenuItem(13, 'Attribute Binding', 2, "3_dataandeventhandling", "glyphicon glyphicon-user", [], '3_attributebinding'),
+        new MenuItem(14, 'Adding Bootstrap', 2, "3_dataandeventhandling", "glyphicon glyphicon-fullscreen", [], '4_addingbootstrap'),
+        new MenuItem(15, 'Class Binding', 2, "3_dataandeventhandling", "glyphicon glyphicon-send",[],  '5_classbinding'),
+        new MenuItem(16, 'Style Binding', 2, "3_dataandeventhandling", "glyphicon glyphicon-tasks", [], '6_stylebinding'),
+        new MenuItem(17, 'Event Binding', 2, "3_dataandeventhandling", "glyphicon glyphicon-user", [], '7_eventbinding'),
+        new MenuItem(18, 'Event Filtering', 2, "3_dataandeventhandling", "glyphicon glyphicon-fullscreen", [], '8_eventfiltering'),
+        new MenuItem(19, 'Template Variables', 2, "3_dataandeventhandling", "glyphicon glyphicon-send",[],  '9_templatevariables'),
+        new MenuItem(20, 'Two-Way Binding', 2, "3_dataandeventhandling", "glyphicon glyphicon-tasks", [], '10_twowaybinding'),
+        new MenuItem(21, 'Pipes', 2, "3_dataandeventhandling", "glyphicon glyphicon-user", [], '11_pipes'),
       ],  '1_introduction'), 
 
-      new MenuItem('Reusable Components', 1, "4_reusablecomponents", "glyphicon glyphicon-globe", [
-        new MenuItem('Input Property', 2, "4_reusablecomponents", "glyphicon glyphicon-tag", [], '2_inputproperty'),
-        new MenuItem('Output Property', 2, "4_reusablecomponents", "glyphicon glyphicon-tasks", [], '3_outputproperty'),
-        new MenuItem('View Encapsulation', 2, "4_reusablecomponents", "glyphicon glyphicon-user", [], '4_viewencapsulation'),
-        new MenuItem('ng Content', 2, "4_reusablecomponents", "glyphicon glyphicon-fullscreen", [], '5_ngcontent'),
-        new MenuItem('ng Container', 2, "4_reusablecomponents", "glyphicon glyphicon-send",[],  '6_ngcontainer'),
+      new MenuItem(22, 'Reusable Components', 1, "4_reusablecomponents", "glyphicon glyphicon-globe", [
+        new MenuItem(23, 'Input Property', 2, "4_reusablecomponents", "glyphicon glyphicon-tag", [], '2_inputproperty'),
+        new MenuItem(24, 'Output Property', 2, "4_reusablecomponents", "glyphicon glyphicon-tasks", [], '3_outputproperty'),
+        new MenuItem(25, 'View Encapsulation', 2, "4_reusablecomponents", "glyphicon glyphicon-user", [], '4_viewencapsulation'),
+        new MenuItem(26, 'ng Content', 2, "4_reusablecomponents", "glyphicon glyphicon-fullscreen", [], '5_ngcontent'),
+        new MenuItem(27, 'ng Container', 2, "4_reusablecomponents", "glyphicon glyphicon-send",[],  '6_ngcontainer'),
       ],  '1_introduction'),
 
-      new MenuItem('Forms', 1, "5_forms", "glyphicon glyphicon-globe", [
-        new MenuItem('Template Driven Forms', 2, "5_forms", "glyphicon glyphicon-tag", [], '2_templatedrivenforms'),
-        new MenuItem('Reactive Forms', 2, "5_forms", "glyphicon glyphicon-tasks", [], '3_reactiveforms'),
+      new MenuItem(28, 'Forms', 1, "5_forms", "glyphicon glyphicon-globe", [
+        new MenuItem(29, 'Template Driven Forms', 2, "5_forms", "glyphicon glyphicon-tag", [], '2_templatedrivenforms'),
+        new MenuItem(30, 'Reactive Forms', 2, "5_forms", "glyphicon glyphicon-tasks", [], '3_reactiveforms'),
       ],  '1_introduction'),
 
-      new MenuItem('HTTP Client', 1, "6_httpservices", "glyphicon glyphicon-globe", [
-        new MenuItem('HTTP Interceptors', 2, "6_httpservices", "glyphicon glyphicon-tasks", [], '2_httpintercepters'),
+      new MenuItem(31, 'HTTP Client', 1, "6_httpservices", "glyphicon glyphicon-globe", [
+        new MenuItem(32, 'HTTP Interceptors', 2, "6_httpservices", "glyphicon glyphicon-tasks", [], '2_httpintercepters'),
       ],  '1_introduction'),
 
-      new MenuItem('Routing', 1, "7_routing", "glyphicon glyphicon-globe", [
-        new MenuItem('Configuring Routes', 2, "7_routing", "glyphicon glyphicon-tag", [], '2_configuringroutes'),
-        new MenuItem('Route & Query Parameters', 2, "7_routing", "glyphicon glyphicon-tasks", [], '3_routeandqueryparameters'),
+      new MenuItem(33, 'Routing', 1, "7_routing", "glyphicon glyphicon-globe", [
+        new MenuItem(34, 'Configuring Routes', 2, "7_routing", "glyphicon glyphicon-tag", [], '2_configuringroutes'),
+        new MenuItem(35, 'Route & Query Parameters', 2, "7_routing", "glyphicon glyphicon-tasks", [], '3_routeandqueryparameters'),
       ],  '1_introduction'),
 
-      new MenuItem('Animations', 1, "8_animations", "glyphicon glyphicon-globe", [],  '1_animations'),
+      new MenuItem(36, 'Animations', 1, "8_animations", "glyphicon glyphicon-globe", [],  '1_animations'),
   
-      new MenuItem('Deployments', 1, "9_deployments", "glyphicon glyphicon-globe", [
-        new MenuItem('Firebase', 2, "9_deployments", "glyphicon glyphicon-tag", [], '2_firebase'),
-        new MenuItem('Github', 2, "9_deployments", "glyphicon glyphicon-tasks", [], '3_github'),
-        new MenuItem('Heroku', 2, "9_deployments", "glyphicon glyphicon-tasks", [], '4_heroku'),
+      new MenuItem(37, 'Deployments', 1, "9_deployments", "glyphicon glyphicon-globe", [
+        new MenuItem(38, 'Firebase', 2, "9_deployments", "glyphicon glyphicon-tag", [], '2_firebase'),
+        new MenuItem(39, 'Github', 2, "9_deployments", "glyphicon glyphicon-tasks", [], '3_github'),
+        new MenuItem(40, 'Heroku', 2, "9_deployments", "glyphicon glyphicon-tasks", [], '4_heroku'),
       ],  '1_introduction'),
   ];
 
@@ -266,6 +266,6 @@ export class AppDataService{
     }
     
     getMenus(){
-        return this.menus;
+        return this.menus.slice();
     }
  }
