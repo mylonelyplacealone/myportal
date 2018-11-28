@@ -8,6 +8,14 @@ hr {
     margin-top:-7px;
 }
 
+h2{
+    border-radius: 10px;
+    border: 3px #333 solid;
+    padding: 7px;
+    width: 175px;
+    margin-left: 10px;
+}
+
 p{
     margin-left:10px;
 }
