@@ -11,7 +11,8 @@ import { AboutComponent } from './about/about.component';
 import { StartpageComponent } from './startpage/startpage.component';
 
 const appRoutes: Routes = [
-    { path: '', component: SigninComponent},
+    { path: '', redirectTo: 'home', pathMatch: 'full'},
+    // { path: '', component: StartpageComponent, canActivate: [AuthGuard]},
     // { path: 'home', component: HomeComponent, canActivate: [AuthGuard]},
     { path: 'home', component: StartpageComponent, canActivate: [AuthGuard]},
     { path: 'coursedetails', component: CoursedetailsComponent, canActivate: [AuthGuard]},
